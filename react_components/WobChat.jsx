@@ -3,6 +3,7 @@ var React = require('react'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
+    FriendsList  = require('./FriendsList.jsx'),
 
     PurpleTheme  = require('./PurpleTheme.jsx');
 
@@ -31,7 +32,7 @@ module.exports = React.createClass({
                 showMenuIconButton={false}
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
                 style={{zIndex: 20}}/>
-            <RaisedButton label="Chat" primary={true}/>
+            <FriendsList />
             </div>
         );
     }
