@@ -20,7 +20,6 @@ describe('WobChat', function(){
   });
 
   it('should have the label "Chat"', function() {
-    console.log(this.component.props.children[1]);
     assert(this.component.props.children[1].props.label == 'Chat');
   });
 
