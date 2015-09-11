@@ -9,6 +9,7 @@ var React = require('react'),
     Avatar       = mui.Avatar,
     Paper        = mui.Paper,
     Colors       = mui.Styles.Colors,
+    FriendsListItem = require('./FriendsListItem.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -46,10 +47,7 @@ module.exports = React.createClass({
                 <Paper zDepth={0} >
                     {this.state.friends.map(function(result) {
                         return (
-                            <ListItem
-                                key={result.id}
-                                leftAvatar={<Avatar src={result.picture} />}
-                                primaryText={result.name}/>
+                            <FriendsListItem key={result.id} user={result} />
                         );
                     })}
                 </Paper>
