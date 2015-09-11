@@ -7,7 +7,7 @@
 Steps to install:
 
 1. Install node and npm
-2. Install grunt-cli (`sudo npm install -g grunt cli`)
+2. Install grunt-cli (`sudo npm install -g grunt-cli`)
 3. Install everything else (`sudo npm install`)
 
 To build assets, run `grunt`. To watch for changes, run `grunt watch`.
