@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel/register --recursive",
-    "bamboo": "/usr/bin/nodejs mocha -R mocha-bamboo-reporter --compilers js:babel/register --recursive"
+    "bamboo": "mocha -R mocha-bamboo-reporter --compilers js:babel/register --recursive"
   },
   "author": "",
   "license": "ISC",
