@@ -23,7 +23,8 @@ module.exports = React.createClass({
                 id: 1,
                 picture: '',
                 name: 'Test User'
-            }
+            },
+            onClick: function() {}
         };
     },
     render: function() {
