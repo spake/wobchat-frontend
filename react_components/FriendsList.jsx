@@ -5,6 +5,7 @@ var React = require('react'),
     Paper        = mui.Paper,
     Colors       = mui.Styles.Colors,
     FriendsListItem = require('./FriendsListItem.jsx'),
+    FriendsListAcceptDeclineModal = require('./FriendsListAcceptDeclineModal.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -35,6 +36,13 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var self = this;
+        this.refs.modal.show();
+    },
+    acceptRequest: function(user) {
+        console.log(user);
+    },
+    declineRequest: function(user) {
+        console.log(user);
     },
     render: function() {
         return (
@@ -46,6 +54,7 @@ module.exports = React.createClass({
                         );
                     })}
                 </Paper>
+                <FriendsListAcceptDeclineModal ref="modal" user={this.state.friends[0]} accept={this.acceptRequest} decline={this.declineRequest}/>
             </List>
         );
     }
