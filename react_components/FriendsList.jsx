@@ -10,6 +10,7 @@ var React = require('react'),
     Paper        = mui.Paper,
     Colors       = mui.Styles.Colors,
     FriendsListItem = require('./FriendsListItem.jsx'),
+    FriendsListAddBox = require('./FriendsListAddBox.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -43,8 +44,11 @@ module.exports = React.createClass({
     },
     render: function() {
         return (
+            <div>
+            <FriendsListAddBox />
             <List subheader="Friends">
                 <Paper zDepth={0} >
+
                     {this.state.friends.map(function(result) {
                         return (
                             <FriendsListItem key={result.id} user={result} />
@@ -52,6 +56,7 @@ module.exports = React.createClass({
                     })}
                 </Paper>
             </List>
+            </div>
         );
     }
 });
