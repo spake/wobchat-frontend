@@ -36,26 +36,29 @@ module.exports = React.createClass({
         this.setState({search: event.target.value});
     },
     render: function() {
+        var self = this;
+
         var style = {
             padding: '0 15px'
         };
-        var value = this.state.search;
 
+        var value = this.state.search;
 
         var filtered = this.props.users.filter(function (el) {
             return value && el.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+        }).map(function(user) {
+            return (
+                <FriendsListItem key={user.id} user={user} onClick={self.props.addFriend} />
+            );
         });
+
 
         return (
             <div>
                 <TextField fullWidth hintText="Add friends..." style={style}
                   value={value} onChange={this.handleTextChange}/>
                 <List>
-                    {filtered.map(function(result) {
-                        return (
-                            <FriendsListItem key={result.id} user={result} />
-                        );
-                    })}
+                    {filtered}
                 </List>
                 { filtered.length ? <ListDivider /> : null}
             </div>

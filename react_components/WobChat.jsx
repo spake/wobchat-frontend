@@ -24,6 +24,9 @@ module.exports = React.createClass({
     componentDidMount: function() {
         var self = this;
     },
+    openChat: function(element, event) {
+        console.log("We should probably open a chat here to " + element.props.user.name)
+    },
     render: function() {
         return (
             <div>
@@ -32,7 +35,7 @@ module.exports = React.createClass({
                 showMenuIconButton={false}
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
                 style={{zIndex: 20}}/>
-            <FriendsList />
+            <FriendsList openChat={this.openChat}/>
             </div>
         );
     }

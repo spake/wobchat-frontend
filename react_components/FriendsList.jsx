@@ -22,12 +22,12 @@ module.exports = React.createClass({
         return {
             friends: [
                 {
-                    id: 1,
+                    id: 99,
                     name: "John Wiseheart",
                     picture: "http://www.gravatar.com/avatar/f701bd37f4beca74e1be313719d80629"
                 },
                 {
-                    id: 2,
+                    id: 56,
                     name: "George Caley",
                     picture: "http://www.gravatar.com/avatar/c526aa6b7282b04f21dc45663c816129"
                 }
@@ -37,18 +37,23 @@ module.exports = React.createClass({
     componentDidMount: function() {
         var self = this;
     },
+    addFriend: function(element, event) {
+        // here we can send a message to the API telling it we have added a friend
+        this.setState({friends: this.state.friends.concat([element.props.user])})
+    },
     render: function() {
+        var self = this;
+        var friends = this.state.friends.map(function(result) {
+            return (
+                <FriendsListItem key={result.id} user={result} onClick={self.props.openChat} />
+            );
+        }.bind(this));
         return (
             <div>
-            <FriendsListAddBox />
+            <FriendsListAddBox addFriend={this.addFriend}/>
             <List subheader="Friends">
                 <Paper zDepth={0} >
-
-                    {this.state.friends.map(function(result) {
-                        return (
-                            <FriendsListItem key={result.id} user={result} />
-                        );
-                    })}
+                    {friends}
                 </Paper>
             </List>
             </div>

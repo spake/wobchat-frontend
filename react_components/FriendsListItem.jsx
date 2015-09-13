@@ -30,6 +30,7 @@ module.exports = React.createClass({
         var user = this.props.user;
         return (
             <ListItem
+                onClick={this.props.onClick.bind(null, this)}
                 key={user.id}
                 leftAvatar={<Avatar src={user.picture} />}
                 primaryText={user.name}/>
