@@ -3,7 +3,7 @@ var React = require('react'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
-
+    Thread       = require('./Thread.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -24,14 +24,23 @@ module.exports = React.createClass({
         var self = this;
     },
     render: function() {
+        var appBarStyle = {
+            position: "fixed",
+            top: 0,
+            zIndex: 20
+        }
+
+        var threadStyle = {
+            paddingTop: "20px"
+        }
         return (
             <div>
             <AppBar
+                style={appBarStyle}
                 title="WobChat"
                 showMenuIconButton={false}
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-                style={{zIndex: 20}}/>
-            <RaisedButton label="Chat" primary={true}/>
+                iconClassNameRight="muidocs-icon-navigation-expand-more" />
+            <Thread style={threadStyle}/>
             </div>
         );
     }
