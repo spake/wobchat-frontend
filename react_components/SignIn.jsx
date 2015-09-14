@@ -2,11 +2,10 @@ var React = require('react'),
     mui = require('material-ui'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
-    AppBar       = mui.AppBar,
-    SignIn       = require('./SignIn.jsx'),
-    PurpleTheme  = require('./PurpleTheme.jsx');
+    TextField = mui.TextField,
+    PurpleTheme = require('./PurpleTheme.jsx');
 
-ThemeManager.setPalette(PurpleTheme);
+ThemeManager.setPalette(PurpleTheme)
 module.exports = React.createClass({
     childContextTypes: {
         muiTheme: React.PropTypes.object
@@ -17,7 +16,7 @@ module.exports = React.createClass({
         };
     },
     getInitialState: function() {
-        return {
+        return {   
         };
     },
     componentDidMount: function() {
@@ -26,12 +25,9 @@ module.exports = React.createClass({
     render: function() {
         return (
             <div>
-            <AppBar
-                title="WobChat"
-                showMenuIconButton={false}
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-                style={{zIndex: 20}}/>
-            <SignIn />
+                <RaisedButton label="Sign In"/>
+                <TextField floatingLabelText="Username"/>
+                <TextField floatingLabelText="Password" type="password"/>
             </div>
         );
     }
