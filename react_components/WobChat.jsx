@@ -3,8 +3,12 @@ var React = require('react'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
+<<<<<<< HEAD
     FriendsList  = require('./FriendsList.jsx'),
 
+=======
+    SignIn       = require('./SignIn.jsx'),
+>>>>>>> Added simple sign in UI
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -35,6 +39,7 @@ module.exports = React.createClass({
                 showMenuIconButton={false}
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
                 style={{zIndex: 20}}/>
+            <SignIn />
             <FriendsList openChat={this.openChat}/>
             </div>
         );
