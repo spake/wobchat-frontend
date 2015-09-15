@@ -8,8 +8,9 @@ var React = require('react'),
     FriendsListAddBox = require('./FriendsListAddBox.jsx'),
     FriendsListAcceptDeclineModal = require('./FriendsListAcceptDeclineModal.jsx'),
     RaisedButton = mui.RaisedButton;
-//    PurpleTheme  = require('./PurpleTheme.jsx');
+    PurpleTheme  = require('./PurpleTheme.jsx');
 
+ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
     childContextTypes: {
         muiTheme: React.PropTypes.object
