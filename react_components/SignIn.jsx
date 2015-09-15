@@ -19,16 +19,34 @@ module.exports = React.createClass({
         return {   
         };
     },
-    componentDidMount: function() {
-        var self = this;
+    componentDidMount: function() { 
+        window.addEventListener('gapi-loaded', this.renderGoogleLoginButton);
     },
     render: function() {
         return (
-            <div>
-                <RaisedButton label="Sign In"/>
-                <TextField floatingLabelText="Username"/>
-                <TextField floatingLabelText="Password" type="password"/>
-            </div>
+            <div id="g-signin2"></div>
         );
+    },
+    renderGoogleLoginButton: function() {
+        console.log('rendering g button');
+        gapi.signin2.render('g-signin2', {
+            'scope': 'https://www.googleapis.com/auth/plus.login',
+            'width': 200,
+            'height': 50,
+            'longtitle': true,
+            'onsuccess': this.onSignIn,
+            'onfailure': this.onFailure
+        });
+    },
+    onSignIn: function(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log("Hi");
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+    },
+    onFailure: function() {
+        console.log(error);
     }
 });

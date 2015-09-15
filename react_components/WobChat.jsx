@@ -33,15 +33,16 @@ module.exports = React.createClass({
     },
     render: function() {
         return (
-            <div>
+            /*<div>
             <AppBar
                 title="WobChat"
                 showMenuIconButton={false}
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
-                style={{zIndex: 20}}/>
+                style={{zIndex: 20}}/>*/
             <SignIn />
             <FriendsList openChat={this.openChat}/>
             </div>
+            //</div>
         );
     }
 });
