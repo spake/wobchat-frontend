@@ -6,6 +6,8 @@ var React = require('react'),
     Colors       = mui.Styles.Colors,
     FriendsListItem = require('./FriendsListItem.jsx'),
     FriendsListAddBox = require('./FriendsListAddBox.jsx'),
+    FriendsListAcceptDeclineModal = require('./FriendsListAcceptDeclineModal.jsx'),
+    RaisedButton = mui.RaisedButton,
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -36,10 +38,20 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var self = this;
+        this.refs.modal.show();
+    },
+    acceptRequest: function(user) {
+        console.log(user);
+    },
+    declineRequest: function(user) {
+        console.log(user);
     },
     addFriend: function(element, event) {
         // here we can send a message to the API telling it we have added a friend
         this.setState({friends: this.state.friends.concat([element.props.user])})
+    },
+    launchModal: function() {
+        this.refs.modal.show();
     },
     render: function() {
         var self = this;
@@ -55,6 +67,8 @@ module.exports = React.createClass({
                 <Paper zDepth={0} >
                     {friends}
                 </Paper>
+                <RaisedButton onClick={this.launchModal} primary={true} label="Friend Request Dialog"/>
+                <FriendsListAcceptDeclineModal ref="modal" user={this.state.friends[0]} accept={this.acceptRequest} decline={this.declineRequest}/>
             </List>
             </div>
         );
