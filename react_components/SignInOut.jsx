@@ -27,20 +27,11 @@ module.exports = React.createClass({
 
             googleApiLoader.getAuth2().currentUser.listen(function (user) {
                 _this.setState({finishedLoading: true});
-                if (user.getBasicProfile()) {
-                    var profile = user.getBasicProfile();
-                    var profileProxy = {};
-                    profileProxy.id = profile.getId();
-                    profileProxy.name = profile.getName();
-                    profileProxy.thumb = profile.getImageUrl();
-                    profileProxy.email = profile.getEmail();
-                    _this.setState({loggedInUser: profileProxy});
-                }
-                _this.setState({isLoggedIn: user.getBasicProfile() ? true : false});
             });
+            // Duplicated code below to ensure correct label is shown
+            // on page refresh as well as button click
             if (googleApiLoader.getAuth2().isSignedIn.get()) {
                 _this.setState({loggedStatusLabel: 'Sign Out'});
-                console.log('still logged in');
             } else {
                 _this.setState({loggedStatusLabel: 'Sign In'});
             }
@@ -52,11 +43,9 @@ module.exports = React.createClass({
         if (googleApiLoader.getAuth2().isSignedIn.get()) {
             googleApiLoader.signOut();
             this.setState({loggedStatusLabel: 'Sign In'});
-            console.log('logged out');
         } else {
             googleApiLoader.signIn();
             this.setState({loggedStatusLabel: 'Sign Out'});
-            console.log('logged in');
         }
     },
     getLabelText: function() {      
@@ -65,9 +54,6 @@ module.exports = React.createClass({
         } else {
             return "Sign In";
         }
-    },
-    onFailure: function(error) {
-        console.log(error);
     },
     render: function() {
         return (
