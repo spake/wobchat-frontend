@@ -23,13 +23,15 @@ module.exports = React.createClass({
                 id: 1,
                 picture: '',
                 name: 'Test User'
-            }
+            },
+            onClick: function() {}
         };
     },
     render: function() {
         var user = this.props.user;
         return (
             <ListItem
+                onClick={this.props.onClick.bind(null, this)}
                 key={user.id}
                 leftAvatar={<Avatar src={user.picture} />}
                 primaryText={user.name}/>
