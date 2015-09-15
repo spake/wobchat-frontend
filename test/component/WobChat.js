@@ -1,6 +1,7 @@
 var React = require('react/addons'),
     assert = require('assert'),
     WobChat = require('../../react_components/WobChat.jsx'),
+    SignIn = require('../../react_components/SignIn.jsx'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui');
 
@@ -16,7 +17,7 @@ describe('WobChat', function(){
     });
 
     it('should render Sign In component', function() {
-        assert(this.component.props.children[1].type = SignIn);
+        assert(this.component.props.children[1].type == SignIn);
     });
   
 

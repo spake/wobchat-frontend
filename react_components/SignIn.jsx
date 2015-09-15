@@ -40,7 +40,7 @@ module.exports = React.createClass({
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
     },
-    onFailure: function() {
+    onFailure: function(error) {
         console.log(error);
     },
     render: function() {
