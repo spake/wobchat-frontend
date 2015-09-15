@@ -4,7 +4,6 @@ var rename = require('gulp-rename');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
 var watch = require('gulp-watch');
-var mocha = require('gulp-mocha');
 require('babel/register');
 
 var port = process.env.port || 8000;
