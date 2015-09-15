@@ -13,6 +13,15 @@
         </style>
     </head>
     <body>
+        <script type=text/javascript>
+        var warn = console.warn;
+        console.warn = function(warning) {
+              if (/(setState)/.test(warning)) {
+                      throw new Error(warning);
+                        }
+                          warn.apply(console, arguments);
+        };
+        </script>
         <script src="https://apis.google.com/js/client.js" async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="build/app.built.js"></script>
