@@ -4,7 +4,7 @@ var React = require('react'),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
     FriendsList  = require('./FriendsList.jsx'),
-
+    SignIn       = require('./SignIn.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -30,12 +30,13 @@ module.exports = React.createClass({
     render: function() {
         return (
             <div>
-            <AppBar
-                title="WobChat"
-                showMenuIconButton={false}
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-                style={{zIndex: 20}}/>
-            <FriendsList openChat={this.openChat}/>
+                <AppBar
+                    title="WobChat"
+                    showMenuIconButton={false}
+                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    style={{zIndex: 20}}/>
+                <SignIn />
+                <FriendsList openChat={this.openChat}/>
             </div>
         );
     }
