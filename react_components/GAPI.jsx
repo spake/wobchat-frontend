@@ -61,13 +61,13 @@ module.exports = {
 
         this.getAuth2().signIn(options).then(function (success) {
         }, function (fail) {
-            console.warn('sign in failed');
+            console.error('Sign in failed');
         });
     },
     signOut: function () {
         this.getAuth2().signOut().then(function (success) {
         }, function (fail) {
-            console.warn('sign out failed');
+            console.error('Sign out failed');
         });
     }
 

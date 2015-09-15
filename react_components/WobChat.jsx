@@ -6,6 +6,7 @@ var React = require('react'),
     FriendsList  = require('./FriendsList.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx'),
     SignInOut       = require('./SignInOut.jsx'),
+    CircularProgress = mui.CircularProgress,
     googleApiLoader = require('./GAPI.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -31,21 +32,7 @@ module.exports = React.createClass({
 
             googleApiLoader.getAuth2().currentUser.listen(function (user) {
                 _this.setState({finishedLoading: true});
-                if (user.getBasicProfile()) {
-                    var profile = user.getBasicProfile();
-                    var profileProxy = {};
-                    profileProxy.id = profile.getId();
-                    profileProxy.name = profile.getName();
-                    profileProxy.thumb = profile.getImageUrl();
-                    profileProxy.email = profile.getEmail();
-                    _this.setState({loggedInUser: profileProxy});
-                }
-                _this.setState({isLoggedIn: user.getBasicProfile() ? true : false});
             });
-        });
-
-        googleApiLoader.clientsLoaded(function () {
-            _this.setState({clientsLoaded: true});
         });
     },
     openChat: function(element, event) {
@@ -65,7 +52,7 @@ module.exports = React.createClass({
                 </div>
             );
         } else {
-            return <div>Loading... potatos</div>
+            return <CircularProgress mode="indeterminate" size={2} />
         }
     }
 });
