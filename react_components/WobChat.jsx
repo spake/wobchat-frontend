@@ -4,11 +4,15 @@ var React = require('react'),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
 <<<<<<< HEAD
+<<<<<<< HEAD
     FriendsList  = require('./FriendsList.jsx'),
 
 =======
     SignIn       = require('./SignIn.jsx'),
 >>>>>>> Added simple sign in UI
+=======
+    SignIn       = require('./SignIn.jsx'),
+>>>>>>> cd9cb2c9b90818b5ff7ca020ba770e3633ef081f
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
