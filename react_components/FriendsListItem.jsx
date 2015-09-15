@@ -1,10 +1,10 @@
 var React = require('react'),
     mui = require('material-ui'),
     ThemeManager = new mui.Styles.ThemeManager(),
-    RaisedButton = mui.RaisedButton,
-    AppBar       = mui.AppBar,
-    FriendsList  = require('./FriendsList.jsx'),
-
+    ListItem     = mui.ListItem,
+    Avatar       = mui.Avatar,
+    Paper        = mui.Paper,
+    Colors       = mui.Styles.Colors,
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -17,23 +17,22 @@ module.exports = React.createClass({
             muiTheme: ThemeManager.getCurrentTheme()
         };
     },
-    getInitialState: function() {
+    getDefaultProps: function() {
         return {
+            user: {
+                id: 1,
+                picture: '',
+                name: 'Test User'
+            }
         };
     },
-    componentDidMount: function() {
-        var self = this;
-    },
     render: function() {
+        var user = this.props.user;
         return (
-            <div>
-            <AppBar
-                title="WobChat"
-                showMenuIconButton={false}
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-                style={{zIndex: 20}}/>
-            <FriendsList />
-            </div>
+            <ListItem
+                key={user.id}
+                leftAvatar={<Avatar src={user.picture} />}
+                primaryText={user.name}/>
         );
     }
 });
