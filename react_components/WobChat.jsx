@@ -5,6 +5,7 @@ var React = require('react'),
     AppBar       = mui.AppBar,
     FriendsList  = require('./FriendsList.jsx'),
     SignIn       = require('./SignIn.jsx'),
+    SignOut      = require('./SignOut.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -36,6 +37,7 @@ module.exports = React.createClass({
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     style={{zIndex: 20}}/>
                 <SignIn />
+                <SignOut />
                 <FriendsList openChat={this.openChat}/>
             </div>
         );

@@ -1,11 +1,8 @@
 var React = require('react'),
     mui = require('material-ui'),
-    ThemeManager = new mui.Styles.ThemeManager(),
-    RaisedButton = mui.RaisedButton,
-    TextField = mui.TextField,
-    PurpleTheme = require('./PurpleTheme.jsx');
+    ThemeManager = new mui.Styles.ThemeManager();
+  //  PurpleTheme = require('./PurpleTheme.jsx');
 
-ThemeManager.setPalette(PurpleTheme)
 module.exports = React.createClass({
     childContextTypes: {
         muiTheme: React.PropTypes.object
