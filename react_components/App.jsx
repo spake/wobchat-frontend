@@ -9,9 +9,6 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 //https://github.com/zilverline/react-tap-event-plugin 
 injectTapEventPlugin();
 
-
-
-
 React.render(
     <Router />,
     document.body);

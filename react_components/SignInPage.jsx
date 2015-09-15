@@ -1,12 +1,13 @@
 var React = require('react'),
-    SignIn = require('./SignIn.jsx');
+    SignIn = require('./SignIn.jsx'),
+    CenterOnPage = require('./CenterOnPage.jsx');
 
 module.exports = React.createClass({
     render: function() {
         return (
-            <div>
-                <SignIn />
-            </div>
+                <CenterOnPage>
+                SignInPage
+                </CenterOnPage>
         );
     }
 })

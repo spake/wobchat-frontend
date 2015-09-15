@@ -28,7 +28,7 @@ var Router = React.createClass({
 module.exports = React.createClass({
     render: function() {
         return (
-            <div>
+            <div style={{height: '100%'}}>
                 <Header />
                 <Router />
             </div>
