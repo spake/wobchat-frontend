@@ -38,6 +38,13 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var self = this;
+        this.refs.modal.show();
+    },
+    acceptRequest: function(user) {
+        console.log(user);
+    },
+    declineRequest: function(user) {
+        console.log(user);
     },
     acceptRequest: function(user) {
         console.log(user);
@@ -68,7 +75,6 @@ module.exports = React.createClass({
                 </Paper>
                 <RaisedButton onClick={this.launchModal} primary={true} label="Friend Request Dialog"/>
                 <FriendsListAcceptDeclineModal ref="modal" user={this.state.friends[0]} accept={this.acceptRequest} decline={this.declineRequest}/>
-
             </List>
             </div>
         );
