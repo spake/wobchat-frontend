@@ -46,12 +46,6 @@ module.exports = React.createClass({
     declineRequest: function(user) {
         console.log(user);
     },
-    acceptRequest: function(user) {
-        console.log(user);
-    },
-    declineRequest: function(user) {
-        console.log(user);
-    },
     addFriend: function(element, event) {
         // here we can send a message to the API telling it we have added a friend
         this.setState({friends: this.state.friends.concat([element.props.user])})
