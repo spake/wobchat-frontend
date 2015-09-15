@@ -9,7 +9,7 @@ require('babel/register');
 var port = process.env.port || 8000;
 
 gulp.task('browserify', function () {
-	gulp.src('react_components/app.jsx')
+	gulp.src('react_components/App.jsx')
 		.pipe(browserify({
 			transform: ['babelify', 'reactify']
 		}))
