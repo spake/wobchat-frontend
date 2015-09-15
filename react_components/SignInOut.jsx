@@ -2,11 +2,9 @@ var React = require('react'),
     mui = require('material-ui'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
-    AppBar       = mui.AppBar,
-    FriendsList  = require('./FriendsList.jsx'),
-    PurpleTheme  = require('./PurpleTheme.jsx'),
-    SignInOut       = require('./SignInOut.jsx'),
+    PurpleTheme = require('./PurpleTheme.jsx'),
     googleApiLoader = require('./GAPI.jsx');
+
 
 ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
@@ -19,13 +17,11 @@ module.exports = React.createClass({
         };
     },
     getInitialState: function() {
-        return {
-        };
+        return {};
     },
-    componentDidMount: function() {
+    componentDidMount: function() { 
         var self = this;
         var _this = this;
-
         googleApiLoader.authLoaded(function () {
             _this.setState({authLoaded: true});
 
@@ -42,30 +38,40 @@ module.exports = React.createClass({
                 }
                 _this.setState({isLoggedIn: user.getBasicProfile() ? true : false});
             });
+            if (googleApiLoader.getAuth2().isSignedIn.get()) {
+                _this.setState({loggedStatusLabel: 'Sign Out'});
+                console.log('still logged in');
+            } else {
+                _this.setState({loggedStatusLabel: 'Sign In'});
+            }
         });
 
-        googleApiLoader.clientsLoaded(function () {
-            _this.setState({clientsLoaded: true});
-        });
+        
     },
-    openChat: function(element, event) {
-        console.log("We should probably open a chat here to " + element.props.user.name)
+    toggleLoggedStatus: function() {
+        if (googleApiLoader.getAuth2().isSignedIn.get()) {
+            googleApiLoader.signOut();
+            this.setState({loggedStatusLabel: 'Sign In'});
+            console.log('logged out');
+        } else {
+            googleApiLoader.signIn();
+            this.setState({loggedStatusLabel: 'Sign Out'});
+            console.log('logged in');
+        }
+    },
+    getLabelText: function() {      
+        if (googleApiLoader.getAuth2().isSignedIn.get()) {
+            return "Sign Out";
+        } else {
+            return "Sign In";
+        }
+    },
+    onFailure: function(error) {
+        console.log(error);
     },
     render: function() {
-        if (this.state.finishedLoading) {
-            return (
-                <div>
-                    <AppBar
-                        title="WobChat"
-                        showMenuIconButton={false}
-                        iconClassNameRight="muidocs-icon-navigation-expand-more"
-                        style={{zIndex: 20}}/>
-                    <SignInOut />
-                    <FriendsList openChat={this.openChat}/>
-                </div>
-            );
-        } else {
-            return <div>Loading... potatos</div>
-        }
+        return (
+            <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
+        );
     }
 });
