@@ -22,18 +22,12 @@ module.exports = React.createClass({
     componentDidMount: function() { 
         window.addEventListener('gapi-loaded', this.renderGoogleLoginButton);
     },
-    render: function() {
-        return (
-            <div id="g-signin2"></div>
-        );
-    },
     renderGoogleLoginButton: function() {
         console.log('rendering g button');
         gapi.signin2.render('g-signin2', {
             'scope': 'https://www.googleapis.com/auth/plus.login',
             'width': 200,
             'height': 50,
-            'longtitle': true,
             'onsuccess': this.onSignIn,
             'onfailure': this.onFailure
         });
@@ -48,5 +42,10 @@ module.exports = React.createClass({
     },
     onFailure: function() {
         console.log(error);
+    },
+    render: function() {
+        return (
+            <div id="g-signin2"></div>
+        );
     }
 });
