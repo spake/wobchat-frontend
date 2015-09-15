@@ -38,7 +38,6 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var self = this;
-        this.refs.modal.show();
     },
     acceptRequest: function(user) {
         console.log(user);
