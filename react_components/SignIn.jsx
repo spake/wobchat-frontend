@@ -1,24 +1,6 @@
-var React = require('react'),
-    mui = require('material-ui'),
-    ThemeManager = new mui.Styles.ThemeManager(),
-    RaisedButton = mui.RaisedButton,
-    TextField = mui.TextField,
-    PurpleTheme = require('./PurpleTheme.jsx');
+var React = require('react');
 
-ThemeManager.setPalette(PurpleTheme)
 module.exports = React.createClass({
-    childContextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-    getChildContext: function() {
-        return {
-            muiTheme: ThemeManager.getCurrentTheme()
-        };
-    },
-    getInitialState: function() {
-        return {   
-        };
-    },
     componentDidMount: function() { 
         window.addEventListener('gapi-loaded', this.renderGoogleLoginButton);
     },

@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Router = require('./Router.jsx');
 var WobChat = require('./WobChat.jsx');
 var injectTapEventPlugin = require("react-tap-event-plugin");
  
@@ -8,6 +9,9 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 //https://github.com/zilverline/react-tap-event-plugin 
 injectTapEventPlugin();
 
+
+
+
 React.render(
-    <WobChat />,
+    <Router />,
     document.body);
