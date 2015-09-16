@@ -1,6 +1,6 @@
-var React = require('react');
-var WobChat = require('./WobChat.jsx');
-var injectTapEventPlugin = require("react-tap-event-plugin");
+var React = require('react'),
+    Router = require('./Router.jsx');
+let injectTapEventPlugin = require("react-tap-event-plugin");
  
 //Needed for onTouchTap 
 //Can go away when react 1.0 release 
@@ -9,5 +9,5 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
 React.render(
-    <WobChat />,
+    <Router />,
     document.body);
