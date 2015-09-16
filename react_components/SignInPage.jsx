@@ -6,7 +6,7 @@ module.exports = React.createClass({
     render: function() {
         return (
                 <CenterOnPage>
-                SignInPage
+                <SignIn />
                 </CenterOnPage>
         );
     }
