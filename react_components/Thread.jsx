@@ -70,7 +70,7 @@ module.exports = React.createClass({
         var style = {
             padding: '0',
             listStyleType: "none",
-            marginTop: 0
+            margin: 0
         }
 
 
