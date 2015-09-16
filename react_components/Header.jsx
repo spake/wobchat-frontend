@@ -15,6 +15,15 @@ module.exports = React.createClass({
         };
     },
     render: function() {
+        var appBarStyle = {
+            position: "fixed",
+            top: 0,
+            zIndex: 20
+        }
+
+        var threadStyle = {
+            paddingTop: "20px"
+        }
         return (
             <AppBar
                     title="WobChat"

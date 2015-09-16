@@ -27,8 +27,14 @@ var Router = React.createClass({
 
 module.exports = React.createClass({
     render: function() {
+        let divStyle={
+            display: 'flex',
+            WebkitFlexDirection: 'column',
+            flexDirection: 'column',
+            height: '100%'
+        }
         return (
-            <div style={{height: '100%'}}>
+            <div style={divStyle}>
                 <Header />
                 <Router />
             </div>
