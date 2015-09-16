@@ -68,8 +68,9 @@ module.exports = React.createClass({
     render: function() {
         var self = this;
         var style = {
-            padding: '50px 0 0 0',
+            padding: '0',
             listStyleType: "none",
+            marginTop: 0
         }
 
 

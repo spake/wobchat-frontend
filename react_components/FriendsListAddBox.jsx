@@ -39,7 +39,8 @@ module.exports = React.createClass({
         var self = this;
 
         var style = {
-            padding: '0 15px'
+            padding: '0 0 0 15px',
+            margin: 0
         };
 
         var value = this.state.search;
@@ -55,7 +56,7 @@ module.exports = React.createClass({
 
         return (
             <div>
-                <TextField fullWidth hintText="Add friends..." style={style}
+                <TextField hintText="Add friends..." style={style}
                   value={value} onChange={this.handleTextChange}/>
                 <List>
                     {filtered}
