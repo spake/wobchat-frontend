@@ -5,7 +5,6 @@ var React = require('react'),
     PurpleTheme = require('./PurpleTheme.jsx'),
     googleApiLoader = require('./GAPI.jsx');
 
-
 ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
     childContextTypes: {

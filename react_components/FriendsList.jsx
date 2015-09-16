@@ -7,7 +7,7 @@ var React = require('react'),
     FriendsListItem = require('./FriendsListItem.jsx'),
     FriendsListAddBox = require('./FriendsListAddBox.jsx'),
     FriendsListAcceptDeclineModal = require('./FriendsListAcceptDeclineModal.jsx'),
-    RaisedButton = mui.RaisedButton;
+    RaisedButton = mui.RaisedButton,
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);

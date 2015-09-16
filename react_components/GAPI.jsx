@@ -14,7 +14,7 @@ module.exports = {
                 callback();
             }
             else {
-                window.setTimeout(function () {
+                setTimeout(function () {
                     check();
                 }, 50);
             }
@@ -28,7 +28,7 @@ module.exports = {
                 callback();
             }
             else {
-                window.setTimeout(function () {
+                setTimeout(function () {
                     check();
                 }, 50);
             }
@@ -42,7 +42,7 @@ module.exports = {
                 callback();
             }
             else {
-                window.setTimeout(function () {
+                setTimeout(function () {
                     hasgapi();
                 }, 50);
             }
