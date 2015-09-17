@@ -6,6 +6,7 @@ var React = require('react'),
     Paper        = mui.Paper,
     FriendsList  = require('./FriendsList.jsx'),
     Thread       = require('./Thread.jsx'),
+    SignInOut    = require('./SignInOut.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -49,6 +50,7 @@ let contentStyles = {
         return (
         <div style={mainStyles}>
             <div style={sidebarStyles}>
+                <SignInOut />
                 <FriendsList  openChat={this.openChat}/>
             </div>
             <div style={contentStyles}>

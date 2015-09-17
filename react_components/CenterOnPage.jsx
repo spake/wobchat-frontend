@@ -1,5 +1,4 @@
-var React = require('react'),
-    SignIn = require('./SignIn.jsx');
+var React = require('react');
 
 module.exports = React.createClass({
     render: function() {
