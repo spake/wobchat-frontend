@@ -1,6 +1,7 @@
 var React = require('react'),
     mui = require('material-ui'),
     AppBar = mui.AppBar,
+    SignInOut = require('./SignInOut.jsx'),
     ThemeManager = new mui.Styles.ThemeManager(),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
@@ -24,12 +25,17 @@ module.exports = React.createClass({
         var threadStyle = {
             paddingTop: "20px"
         }
+        var signStyle = {
+            paddingTop: "6px",
+            paddingRight: "4px"
+        }
         return (
             <AppBar
                     title="WobChat"
                     showMenuIconButton={false}
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
-                    style={{zIndex: 20}}/>
+                    style={{zIndex: 20}}
+                    iconElementRight={<div style={signStyle}><SignInOut/></div>}/>
         );
     }
 })

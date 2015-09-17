@@ -19,7 +19,7 @@ module.exports = React.createClass({
     getInitialState: function() {
         return {};
     },
-    componentDidMount: function() { 
+    componentDidMount: function() {
         var self = this;
         var _this = this;
         googleApiLoader.authLoaded(function () {
@@ -36,7 +36,7 @@ module.exports = React.createClass({
 
         });
 
-        
+
     },
     toggleLoggedStatus: function() {
         if (googleApiLoader.getAuth2().isSignedIn.get()) {
@@ -46,7 +46,7 @@ module.exports = React.createClass({
             googleApiLoader.signIn();
             navigate('/chat');
         }
-        
+
     },
     render: function() {
         if (this.state.finishedLoading) {
