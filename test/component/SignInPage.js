@@ -4,9 +4,7 @@ var React = require('react/addons'),
     mui = require('material-ui'),
     CenterOnPage = require('../../react_components/CenterOnPage.jsx'),
     Logo = require('../../react_components/Logo.jsx'),
-    SignInPage = require('../../react_components/SignInPage.jsx'),
-    SignInOut = require('../../react_components/SignInOut.jsx'),
-    AppBar = mui.AppBar;
+    SignInPage = require('../../react_components/SignInPage.jsx');
 
 describe('SignInPage', function(){
   before('testing', function() {
@@ -20,15 +18,7 @@ describe('SignInPage', function(){
   });
 
   it('should render a Logo', function() {
-    assert(this.component.props.children[0].type == Logo);
-  });
-
-  it('should render a second CenterOnPage', function() {
-    assert(this.component.props.children[1].type == CenterOnPage);
-  });
-
-  it('should render a SignIn', function() {
-    assert(this.component.props.children[1].props.children.type == SignInOut);
+    assert(this.component.props.children.type == Logo);
   });
 
 });
