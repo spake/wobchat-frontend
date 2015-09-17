@@ -3,7 +3,7 @@ var React = require('react'),
     AppBar = mui.AppBar,
     ThemeManager = new mui.Styles.ThemeManager(),
     PurpleTheme  = require('./PurpleTheme.jsx');
-var googleApiLoader = require('./GAPI.jsx');
+
 ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
     childContextTypes: {

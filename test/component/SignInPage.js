@@ -4,6 +4,7 @@ var React = require('react/addons'),
     mui = require('material-ui'),
     CenterOnPage = require('../../react_components/CenterOnPage.jsx'),
     SignInPage = require('../../react_components/SignInPage.jsx'),
+    SignInOut = require('../../react_components/SignInOut.jsx'),
     AppBar = mui.AppBar;
 
 describe('SignInPage', function(){

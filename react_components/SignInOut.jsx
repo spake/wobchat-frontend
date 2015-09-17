@@ -3,7 +3,8 @@ var React = require('react'),
     ThemeManager = new mui.Styles.ThemeManager(),
     RaisedButton = mui.RaisedButton,
     PurpleTheme = require('./PurpleTheme.jsx'),
-    googleApiLoader = require('./GAPI.jsx');
+    googleApiLoader = require('./GAPI.jsx'),
+    navigate = require('react-mini-router').navigate;
 
 ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
@@ -26,14 +27,13 @@ module.exports = React.createClass({
 
             googleApiLoader.getAuth2().currentUser.listen(function (user) {
                 _this.setState({finishedLoading: true});
+                if (googleApiLoader.getAuth2().isSignedIn.get()) {
+                    _this.setState({loggedStatusLabel: 'Sign Out'});
+                } else {
+                    _this.setState({loggedStatusLabel: 'Sign In'});
+                }
             });
-            // Duplicated code below to ensure correct label is shown
-            // on page refresh as well as button click
-            if (googleApiLoader.getAuth2().isSignedIn.get()) {
-                _this.setState({loggedStatusLabel: 'Sign Out'});
-            } else {
-                _this.setState({loggedStatusLabel: 'Sign In'});
-            }
+
         });
 
         
@@ -41,22 +41,18 @@ module.exports = React.createClass({
     toggleLoggedStatus: function() {
         if (googleApiLoader.getAuth2().isSignedIn.get()) {
             googleApiLoader.signOut();
-            this.setState({loggedStatusLabel: 'Sign In'});
+            navigate('/');
         } else {
             googleApiLoader.signIn();
-            this.setState({loggedStatusLabel: 'Sign Out'});
+            navigate('/chat');
         }
-    },
-    getLabelText: function() {      
-        if (googleApiLoader.getAuth2().isSignedIn.get()) {
-            return "Sign Out";
-        } else {
-            return "Sign In";
-        }
+        
     },
     render: function() {
-        return (
-            <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
-        );
+        if (this.state.finishedLoading) {
+            return <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
+        } else {
+            return <RaisedButton />
+        }
     }
 });
