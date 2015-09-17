@@ -4,12 +4,12 @@ var React = require('react/addons'),
     mui = require('material-ui'),
     CenterOnPage = require('../../react_components/CenterOnPage.jsx'),
     Logo = require('../../react_components/Logo.jsx'),
-    SignInPage = require('../../react_components/SignInPage.jsx');
+    LandingPage = require('../../react_components/LandingPage.jsx');
 
-describe('SignInPage', function(){
+describe('LandingPage', function(){
   before('testing', function() {
     var shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(React.createElement(SignInPage));
+    shallowRenderer.render(React.createElement(LandingPage));
     this.component = shallowRenderer.getRenderOutput();
   });
 

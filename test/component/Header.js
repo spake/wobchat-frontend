@@ -17,4 +17,13 @@ describe('Header', function(){
     assert(this.component.type == AppBar);
   });
 
+	it('should have a div in the iconRightElement property', function() {
+		assert(this.component.props.iconElementRight.type == 'div')
+	})
+
+	it('should have a SignInOut inside that div', function() {
+		assert(this.component.props.iconElementRight.props.children.type == SignInOut)
+	})
+
+
 });

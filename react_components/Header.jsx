@@ -33,7 +33,6 @@ module.exports = React.createClass({
             <AppBar
                     title="WobChat"
                     showMenuIconButton={false}
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
                     style={{zIndex: 20}}
                     iconElementRight={<div style={signStyle}><SignInOut/></div>}/>
         );

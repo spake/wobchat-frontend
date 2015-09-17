@@ -17,7 +17,9 @@ module.exports = React.createClass({
         };
     },
     getInitialState: function() {
-        return {};
+        return {
+            loggedStatusLabel: "Loading..."
+        };
     },
     componentDidMount: function() {
         var self = this;
@@ -44,15 +46,15 @@ module.exports = React.createClass({
             navigate('/');
         } else {
             googleApiLoader.signIn();
-            navigate('/chat');
+            googleApiLoader.getAuth2().isSignedIn.listen(function (bool) {
+                if (bool) {
+                    navigate('/chat');
+                }
+            });
         }
 
     },
     render: function() {
-        if (this.state.finishedLoading) {
             return <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
-        } else {
-            return <RaisedButton />
-        }
     }
 });
