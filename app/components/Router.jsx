@@ -32,7 +32,6 @@ export default class Router extends React.Component {
             flexDirection: 'column',
             height: '100%'
         }
-
         return (
             <div style={divStyle}>
                 <Header />
