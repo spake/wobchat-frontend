@@ -65,6 +65,20 @@ module.exports = React.createClass({
     componentDidMount: function() {
         var self = this;
     },
+    addMessage: function(message, direction) {
+        //TODO: Remove console logs.
+        console.log("Message: " + message + "\nDirection: " + direction)
+        // Get current messages.
+        var newMessages = this.state.messages
+        // Add new message.
+        newMessages.push({
+            id: (newMessages.length + 1),
+            message: message,
+            direction: direction
+        })
+        // Set new state.
+        this.setState({messages: newMessages})
+    },
     render: function() {
         var self = this;
         var style = {

@@ -4,6 +4,7 @@ var React = require('react'),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
     Paper        = mui.Paper,
+    TextField    = mui.TextField,
     FriendsList  = require('./FriendsList.jsx'),
     Thread       = require('./Thread.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
@@ -20,6 +21,14 @@ module.exports = React.createClass({
     },
     openChat: function(element, event) {
         console.log("We should probably open a chat here to " + element.props.user.name)
+    },
+    sendMessage: function(event) {
+        var message = event.target.value
+        //TODO: Remove console logs.
+        console.log("Should send message.\n Contents: " + message)
+        this.refs.sendMessageBox.clearValue()
+
+        this.refs.currentThread.addMessage(message, "from")
     },
     render: function() {
 
@@ -53,10 +62,10 @@ let contentStyles = {
             </div>
             <div style={contentStyles}>
               <Paper style={flexRowStyles}>
-                <Thread/>
+                <Thread ref='currentThread'/>
               </Paper>
               <Paper>
-                Bottom
+                <TextField ref='sendMessageBox' fullWidth={true} onEnterKeyDown={this.sendMessage}/>
               </Paper>
             </div>
         </div>)
