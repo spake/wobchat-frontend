@@ -3,6 +3,7 @@ var React = require('react/addons'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
     Header = require('../../react_components/Header.jsx'),
+    SignInOut = require('../../react_components/SignInOut.jsx'),
     AppBar = mui.AppBar;
 
 describe('Header', function(){
@@ -15,5 +16,14 @@ describe('Header', function(){
   it('should render an AppBar', function() {
     assert(this.component.type == AppBar);
   });
+
+	it('should have a div in the iconRightElement property', function() {
+		assert(this.component.props.iconElementRight.type == 'div')
+	})
+
+	it('should have a SignInOut inside that div', function() {
+		assert(this.component.props.iconElementRight.props.children.type == SignInOut)
+	})
+
 
 });

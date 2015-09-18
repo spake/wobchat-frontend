@@ -1,6 +1,6 @@
 var React = require('react'),
     Header = require('./Header.jsx'),
-    SignInPage = require('./SignInPage.jsx'),
+    LandingPage = require('./LandingPage.jsx'),
     ChatPage = require('./ChatPage.jsx'),
     RouterMixin = require('react-mini-router').RouterMixin;
 
@@ -14,7 +14,7 @@ var Router = React.createClass({
         return this.renderCurrentRoute();
     },
     home: function() {
-        return <SignInPage />;
+        return <LandingPage />;
     },
     chat: function() {
         return <ChatPage />;

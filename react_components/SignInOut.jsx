@@ -17,9 +17,11 @@ module.exports = React.createClass({
         };
     },
     getInitialState: function() {
-        return {};
+        return {
+            loggedStatusLabel: "Loading..."
+        };
     },
-    componentDidMount: function() { 
+    componentDidMount: function() {
         var self = this;
         var _this = this;
         googleApiLoader.authLoaded(function () {
@@ -36,7 +38,7 @@ module.exports = React.createClass({
 
         });
 
-        
+
     },
     toggleLoggedStatus: function() {
         if (googleApiLoader.getAuth2().isSignedIn.get()) {
@@ -44,15 +46,15 @@ module.exports = React.createClass({
             navigate('/');
         } else {
             googleApiLoader.signIn();
-            navigate('/chat');
+            googleApiLoader.getAuth2().isSignedIn.listen(function (bool) {
+                if (bool) {
+                    navigate('/chat');
+                }
+            });
         }
-        
+
     },
     render: function() {
-        if (this.state.finishedLoading) {
             return <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
-        } else {
-            return <RaisedButton />
-        }
     }
 });
