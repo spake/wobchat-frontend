@@ -36,6 +36,7 @@ module.exports = React.createClass({
                 } else {
                     _this.setState({loggedStatusLabel: 'Sign In'});
                     localStorage.removeItem('token');
+                    localStorage.removeItem('user');
                 }
             });
 
