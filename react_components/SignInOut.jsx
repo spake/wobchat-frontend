@@ -31,8 +31,12 @@ module.exports = React.createClass({
                 _this.setState({finishedLoading: true});
                 if (googleApiLoader.getAuth2().isSignedIn.get()) {
                     _this.setState({loggedStatusLabel: 'Sign Out'});
+                    localStorage.token = googleApiLoader.getAuth2().currentUser.get().getAuthResponse().id_token;
+                    localStorage.user = JSON.stringify(googleApiLoader.getAuth2().currentUser.get().getBasicProfile())
                 } else {
                     _this.setState({loggedStatusLabel: 'Sign In'});
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
                 }
             });
 
