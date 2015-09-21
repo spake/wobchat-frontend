@@ -46,7 +46,6 @@ module.exports = React.createClass({
         console.log(user);
     },
     addFriend: function(userId) {
-        console.log("yo");
         var self = this;
             $.ajax({
                 method: 'POST',
