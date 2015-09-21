@@ -22,22 +22,22 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         return {
-            friends: [
-                {
-                    id: 99,
-                    name: "John Wiseheart",
-                    picture: "http://www.gravatar.com/avatar/f701bd37f4beca74e1be313719d80629"
-                },
-                {
-                    id: 56,
-                    name: "George Caley",
-                    picture: "http://www.gravatar.com/avatar/c526aa6b7282b04f21dc45663c816129"
-                }
-            ]
+            friends: []
         };
     },
     componentDidMount: function() {
         var self = this;
+        $.ajax({
+            method: 'GET',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", localStorage.token);
+            },
+            url: "https://api.wob.chat/friends",
+        }).done(function(result) {
+            if (result.friends != null) {
+                self.setState({friends: result.friends})
+            }
+        });
     },
     acceptRequest: function(user) {
         console.log(user);
@@ -56,7 +56,7 @@ module.exports = React.createClass({
         var self = this;
         var friends = this.state.friends.map(function(result) {
             return (
-                <FriendsListItem key={result.id} user={result} onClick={self.props.openChat} />
+                <FriendsListItem key={result.uid} user={result} onClick={self.props.openChat} />
             );
         }.bind(this));
         return (
