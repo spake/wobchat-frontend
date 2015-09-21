@@ -6,7 +6,9 @@ var React = require('react'),
     Paper        = mui.Paper,
     FriendsList  = require('./FriendsList.jsx'),
     Thread       = require('./Thread.jsx'),
-    PurpleTheme  = require('./PurpleTheme.jsx');
+    googleApiLoader = require('./GAPI.jsx'),
+    PurpleTheme  = require('./PurpleTheme.jsx'),
+    navigate = require('react-mini-router').navigate;
 
 ThemeManager.setPalette(PurpleTheme);
 module.exports = React.createClass({
@@ -21,30 +23,37 @@ module.exports = React.createClass({
     openChat: function(element, event) {
         console.log("We should probably open a chat here to " + element.props.user.name)
     },
+    componentDidMount: function() {
+        googleApiLoader.authLoaded(function () {
+            if (!googleApiLoader.getAuth2().isSignedIn.get()) {
+                navigate('/');
+            }
+        });
+    },
     render: function() {
 
-let sidebarStyles = {
-  flex: 'initial',
-  width: '300px',
-  minWidth: '100px'
-}
+        let sidebarStyles = {
+          flex: 'initial',
+          width: '300px',
+          minWidth: '100px'
+        }
 
-let mainStyles = {
-  display: 'flex',
-  flex: 1,
-  height: '100%'
-}
+        let mainStyles = {
+          display: 'flex',
+          flex: 1,
+          height: '100%'
+        }
 
-let flexRowStyles = {
-  flex: 1,
-  overflow: 'auto'
-}
+        let flexRowStyles = {
+          flex: 1,
+          overflow: 'auto'
+        }
 
-let contentStyles = {
-  flex:1,
-  flexDirection: 'column',
-  display: 'flex'
-}
+        let contentStyles = {
+          flex:1,
+          flexDirection: 'column',
+          display: 'flex'
+        }
 
         return (
         <div style={mainStyles}>
