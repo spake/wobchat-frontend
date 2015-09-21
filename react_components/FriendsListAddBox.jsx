@@ -35,6 +35,16 @@ module.exports = React.createClass({
     handleTextChange: function(event) {
         this.setState({search: event.target.value});
     },
+    handleTextEnter: function(ev) {
+        var self = this;
+         var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+        if (keycode == '13') {
+            console.log("ENTER");
+            console.log(self.state.search);
+            self.props.addFriend(self.state.search);
+        }
+    },
+
     render: function() {
         var self = this;
 
@@ -45,23 +55,19 @@ module.exports = React.createClass({
 
         var value = this.state.search;
 
-        var filtered = this.props.users.filter(function (el) {
-            return value && el.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
-        }).map(function(user) {
-            return (
-                <FriendsListItem key={user.id} user={user} onClick={self.props.addFriend} />
-            );
-        });
+        // var filtered = this.props.users.filter(function (el) {
+        //     return value && el.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+        // }).map(function(user) {
+        //     return (
+        //         <FriendsListItem key={user.id} user={user} onClick={self.props.addFriend} />
+        //     );
+        // });
 
 
         return (
             <div>
                 <TextField hintText="Add friends..." style={style}
-                  value={value} onChange={this.handleTextChange}/>
-                <List>
-                    {filtered}
-                </List>
-                { filtered.length ? <ListDivider /> : null}
+                  value={value} onChange={this.handleTextChange} onKeyUp={this.handleTextEnter}/>
             </div>
         );
     }

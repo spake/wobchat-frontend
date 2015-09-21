@@ -15,12 +15,12 @@ describe('FriendsListAddBox', function(){
     assert(this.component.type == 'div');
   });
 
-  it('should contain a textfield as its first item', function() {
-    assert(this.component.props.children[0].type == mui.TextField);
-  });
-
-  it('should contain a List as its second item', function() {
-    assert(this.component.props.children[1].type == mui.List);
-  });
+  // it('should contain a textfield as its first item', function() {
+  //   assert(this.component.props.children[0].type == mui.TextField);
+  // });
+  //
+  // it('should contain a List as its second item', function() {
+  //   assert(this.component.props.children[1].type == mui.List);
+  // });
 
 });
