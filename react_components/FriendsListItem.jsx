@@ -20,7 +20,7 @@ module.exports = React.createClass({
     getDefaultProps: function() {
         return {
             user: {
-                id: 1,
+                uid: 1,
                 picture: '',
                 name: 'Test User'
             },
@@ -32,7 +32,7 @@ module.exports = React.createClass({
         return (
             <ListItem
                 onClick={this.props.onClick.bind(null, this)}
-                key={user.id}
+                key={user.uid}
                 leftAvatar={<Avatar src={user.picture} />}
                 primaryText={user.name}/>
         );
