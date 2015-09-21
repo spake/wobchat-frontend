@@ -45,9 +45,24 @@ module.exports = React.createClass({
     declineRequest: function(user) {
         console.log(user);
     },
-    addFriend: function(element, event) {
+    addFriend: function(userId) {
+        console.log("yo");
+        var self = this;
+            $.ajax({
+                method: 'POST',
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-Session-Token", localStorage.token);
+                    request.setRequestHeader("Content-Type", 'application/json');
+                },
+                url: "https://api.wob.chat/friends",
+                data: JSON.stringify({uid: userId})
+            }).done(function(result) {
+                if (result.success) {
+                    self.setState({friends: self.state.friends.concat([result.friend])})
+                }
+            });
+
         // here we can send a message to the API telling it we have added a friend
-        this.setState({friends: this.state.friends.concat([element.props.user])})
     },
     launchModal: function() {
         this.refs.modal.show();
