@@ -24,15 +24,16 @@ module.exports = React.createClass({
     },
     getDefaultProps: function() {
         return {
-            user: {
-                id: 1,
-                name: "John Wiseheart",
-                picture: "http://www.gravatar.com/avatar/c526aa6b7282b04f21dc45663c816129"
-            },
             message: {
                 id: 1,
                 message: "This is a test message",
-                direction: "from"
+                direction: "from",
+                 user: {
+                    id: 1,
+                    name: "John Wiseheart",
+                    picture: "http://www.gravatar.com/avatar/c526aa6b7282b04f21dc45663c816129"
+                },
+
             }
         }
     },
@@ -40,7 +41,7 @@ module.exports = React.createClass({
         var wrapperStyle = {
             display: "flex",
             padding: "10px",
-            backgroundColor: this.props.message.direction=="from" ? Colors.purple100 : null,
+            backgroundColor: this.props.message.direction=="from" ? Colors.purple50 : null,
         }
 
         var textStyle = {
@@ -53,9 +54,9 @@ module.exports = React.createClass({
         return (
             <li>
                 <div style={wrapperStyle} >
-                    <Avatar src={this.props.user.picture} />
+                    <Avatar src={this.props.message.user.picture} />
                     <div style={textStyle}>
-                        {this.props.message.message}
+                        {this.props.message.content}
                     </div>
                 </div>
                 <ListDivider />
