@@ -34,7 +34,7 @@ module.exports = React.createClass({
             }
         }
     },
-    componentDidMount: function() {
+    pullMessages: function() {
         var self = this;
         $.ajax({
             method: 'GET',
@@ -53,7 +53,6 @@ module.exports = React.createClass({
                         entry.direction = "to";
                         entry.user = self.props.user;
                     }
-
                 });
                 self.setState({messages: messages})
             }
@@ -61,6 +60,10 @@ module.exports = React.createClass({
             console.log(jqXHR);
             console.log(textStatus);
         });
+    },
+    componentDidMount: function() {
+        var self = this;
+        setInterval(this.pullMessages, 1000);
     },
     componentWillUpdate: function() {
         var node = React.findDOMNode(this.refs.thread);
