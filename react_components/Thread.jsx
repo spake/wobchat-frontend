@@ -67,12 +67,12 @@ module.exports = React.createClass({
         var self = this;
     },
     componentWillUpdate: function() {
-        var node = this.getDOMNode();
+        var node = React.findDOMNode(this.refs.thread);
         this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
     },
     componentDidUpdate: function() {
         if (this.shouldScrollBottom) {
-            var node = this.getDOMNode();
+            var node = React.findDOMNode(this.refs.thread);
             node.scrollTop = node.scrollHeight
         }
     },
@@ -108,7 +108,7 @@ module.exports = React.createClass({
         });
 
         return (
-            <Paper style={flexRowStyles}>
+            <Paper ref='thread' style={flexRowStyles}>
                 <ul style={listStyles}>
                     {messages}
                 </ul>
