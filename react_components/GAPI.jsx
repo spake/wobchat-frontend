@@ -5,6 +5,10 @@ var auth2Loaded = false;
 var auth2;
 
 module.exports = {
+    /*
+    * Takes in a function as argument with is executed upon
+    * over 1000 clients accessing the Google API. (?)
+    */
     clientsLoaded: function (callback) {
 
         var ids = 0;
@@ -22,6 +26,12 @@ module.exports = {
 
         check();
     },
+    /*
+    * Takes in a function as argument which is executed upon
+    * google authentication services being loaded.
+    * At this point the GoogleAuth object can be accessed through
+    * the getAuth2() function.
+    */
     authLoaded: function (callback) {
         var check = function () {
             if (auth2Loaded && sign2Loaded) {
@@ -36,6 +46,10 @@ module.exports = {
 
         check();
     },
+    /*
+    * Takes in a function as argument which is executed upon
+    * the Google API becoming available.
+    */
     gapiLoaded: function (callback) {
         var hasgapi = function () {
             if (typeof (gapi) !== "undefined" && gapi.client) {
