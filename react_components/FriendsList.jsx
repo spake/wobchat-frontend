@@ -8,6 +8,7 @@ var React = require('react'),
     FriendsListAddBox = require('./FriendsListAddBox.jsx'),
     FriendsListAcceptDeclineModal = require('./FriendsListAcceptDeclineModal.jsx'),
     RaisedButton = mui.RaisedButton,
+    Config = require('./Config.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -32,7 +33,7 @@ module.exports = React.createClass({
             beforeSend: function (request) {
                 request.setRequestHeader("X-Session-Token", localStorage.token);
             },
-            url: "https://api.wob.chat/friends",
+            url: Config.apiBaseUrl + '/friends',
         }).done(function(result) {
             if (result.friends != null) {
                 self.setState({friends: result.friends})
@@ -47,21 +48,19 @@ module.exports = React.createClass({
     },
     addFriend: function(userId) {
         var self = this;
-            $.ajax({
-                method: 'POST',
-                beforeSend: function (request) {
-                    request.setRequestHeader("X-Session-Token", localStorage.token);
-                    request.setRequestHeader("Content-Type", 'application/json');
-                },
-                url: "https://api.wob.chat/friends",
-                data: JSON.stringify({uid: userId})
-            }).done(function(result) {
-                if (result.success) {
-                    self.setState({friends: self.state.friends.concat([result.friend])})
-                }
-            });
-
-        // here we can send a message to the API telling it we have added a friend
+        $.ajax({
+            method: 'POST',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("Content-Type", 'application/json');
+            },
+            url: Config.apiBaseUrl + '/friends',
+            data: JSON.stringify({uid: userId})
+        }).done(function(result) {
+            if (result.success) {
+                self.setState({friends: self.state.friends.concat([result.friend])})
+            }
+        });
     },
     launchModal: function() {
         this.refs.modal.show();
