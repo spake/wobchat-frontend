@@ -53,11 +53,6 @@ module.exports = React.createClass({
           height: '100%'
         }
 
-        let flexRowStyles = {
-          flex: 1,
-          overflow: 'auto'
-        }
-
         let contentStyles = {
           flex:1,
           flexDirection: 'column',
@@ -70,9 +65,7 @@ module.exports = React.createClass({
                 <FriendsList  openChat={this.openChat}/>
             </div>
             <div style={contentStyles}>
-              <Paper style={flexRowStyles}>
-                <Thread ref='currentThread'/>
-              </Paper>
+              <Thread ref='currentThread'/>
               <Paper>
                 <TextField ref='sendMessageBox' fullWidth={true} onEnterKeyDown={this.sendMessage}/>
               </Paper>

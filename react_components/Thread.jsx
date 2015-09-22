@@ -4,6 +4,7 @@ var React = require('react'),
     RaisedButton = mui.RaisedButton,
     AppBar       = mui.AppBar,
     Avatar       = mui.Avatar,
+    Paper        = mui.Paper,
     Message      = require('./Message.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
@@ -65,6 +66,16 @@ module.exports = React.createClass({
     componentDidMount: function() {
         var self = this;
     },
+    componentWillUpdate: function() {
+        var node = this.getDOMNode();
+        this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+    },
+    componentDidUpdate: function() {
+        if (this.shouldScrollBottom) {
+            var node = this.getDOMNode();
+            node.scrollTop = node.scrollHeight
+        }
+    },
     addMessage: function(message, direction) {
         //TODO: Remove console logs.
         console.log("Message: " + message + "\nDirection: " + direction)
@@ -81,21 +92,27 @@ module.exports = React.createClass({
     },
     render: function() {
         var self = this;
-        var style = {
+        let listStyles = {
             padding: '0',
             listStyleType: "none",
             margin: 0
         }
 
+        let flexRowStyles = {
+          flex: 1,
+          overflow: 'auto'
+        }
 
         var messages = this.state.messages.map(function(message) {
             return <Message key={message.id} user={self.props.user} message={message} />
         });
 
         return (
-            <ul style={style}>
-                {messages}
-            </ul>
+            <Paper style={flexRowStyles}>
+                <ul style={listStyles}>
+                    {messages}
+                </ul>
+            </Paper>
         );
     }
 });

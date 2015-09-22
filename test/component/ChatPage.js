@@ -27,7 +27,7 @@ describe('ChatPage', function(){
   });
 
   it('should contain a Thread as its second item', function() {
-    assert(this.component.props.children[1].props.children[0].props.children.type == Thread);
+    assert(this.component.props.children[1].props.children[0].type == Thread);
   });
 
   it('should contain a TextField as its second item', function() {
