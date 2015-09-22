@@ -21,9 +21,6 @@ module.exports = React.createClass({
             muiTheme: ThemeManager.getCurrentTheme()
         };
     },
-    openChat: function(element, event) {
-        console.log("We should probably open a chat here to " + element.props.user.name)
-    },
     sendMessage: function(event) {
         var message = event.target.value
         this.refs.sendMessageBox.clearValue()
