@@ -9,6 +9,7 @@ var React = require('react'),
     Thread       = require('./Thread.jsx'),
     googleApiLoader = require('./GAPI.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx'),
+    ChatBox = require('./ChatBox.jsx'),
     navigate = require('react-mini-router').navigate;
 
 ThemeManager.setPalette(PurpleTheme);
@@ -21,16 +22,13 @@ module.exports = React.createClass({
             muiTheme: ThemeManager.getCurrentTheme()
         };
     },
-    openChat: function(element, event) {
-        console.log("We should probably open a chat here to " + element.props.user.name)
+    getInitialState: function() {
+        return {
+            currentChatUser: null
+        }
     },
-    sendMessage: function(event) {
-        var message = event.target.value
-        //TODO: Remove console logs.
-        console.log("Should send message.\n Contents: " + message)
-        this.refs.sendMessageBox.clearValue()
-
-        this.refs.currentThread.addMessage(message, "from")
+    openChat: function(element, event) {
+        this.setState({currentChatUser: element.props.user})
     },
     componentDidMount: function() {
         googleApiLoader.authLoaded(function () {
@@ -53,23 +51,12 @@ module.exports = React.createClass({
           height: '100%'
         }
 
-        let contentStyles = {
-          flex:1,
-          flexDirection: 'column',
-          display: 'flex'
-        }
-
         return (
         <div style={mainStyles}>
             <div style={sidebarStyles}>
                 <FriendsList  openChat={this.openChat}/>
             </div>
-            <div style={contentStyles}>
-              <Thread ref='currentThread'/>
-              <Paper>
-                <TextField ref='sendMessageBox' fullWidth={true} onEnterKeyDown={this.sendMessage}/>
-              </Paper>
-            </div>
+            {this.state.currentChatUser != null ? <Thread ref='currentThread' user={this.state.currentChatUser}/> : null}
         </div>)
     }
 });

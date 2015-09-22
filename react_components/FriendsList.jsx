@@ -48,6 +48,7 @@ module.exports = React.createClass({
     },
     addFriend: function(userId) {
         var self = this;
+        var id = parseInt(userId);
         $.ajax({
             method: 'POST',
             beforeSend: function (request) {
@@ -55,11 +56,14 @@ module.exports = React.createClass({
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friends',
-            data: JSON.stringify({uid: userId})
+            data: JSON.stringify({id: id})
         }).done(function(result) {
             if (result.success) {
                 self.setState({friends: self.state.friends.concat([result.friend])})
             }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
         });
     },
     launchModal: function() {

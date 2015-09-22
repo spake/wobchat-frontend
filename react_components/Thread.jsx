@@ -6,6 +6,8 @@ var React = require('react'),
     Avatar       = mui.Avatar,
     Paper        = mui.Paper,
     Message      = require('./Message.jsx'),
+    ChatBox      = require('./ChatBox.jsx'),
+    Config       = require('./Config.jsx'),
     PurpleTheme  = require('./PurpleTheme.jsx');
 
 ThemeManager.setPalette(PurpleTheme);
@@ -20,38 +22,7 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         return {
-            messages: [
-                {
-                    id: 1,
-                    message: "Hello, this is a text message",
-                    direction: "to"
-                },
-                {
-                    id: 2,
-                    message: "Nice message!",
-                    direction: "from"
-                },
-                {
-                    id: 3,
-                    message: "Hello, this is a text message",
-                    direction: "to"
-                },
-                {
-                    id: 4,
-                    message: "Nice message!",
-                    direction: "from"
-                },
-                {
-                    id: 5,
-                    message: "Hello, this is a text message",
-                    direction: "to"
-                },
-                {
-                    id: 6,
-                    message: "Nice message!",
-                    direction: "from"
-                },
-            ]
+            messages: []
         };
     },
     getDefaultProps: function() {
@@ -65,6 +36,31 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var self = this;
+        $.ajax({
+            method: 'GET',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", localStorage.token);
+            },
+            url: Config.apiBaseUrl + '/friends/' + self.props.user.id + '/messages',
+        }).done(function(result) {
+            if (!result.error) {
+                var messages = result.messages;
+                messages.forEach(function(entry) {
+                    if (entry.senderId != self.props.user.id) {
+                        entry.direction = "from";
+                        entry.user = JSON.parse(localStorage.user);
+                    } else {
+                        entry.direction = "to";
+                        entry.user = self.props.user;
+                    }
+
+                });
+                self.setState({messages: messages})
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
     },
     componentWillUpdate: function() {
         var node = React.findDOMNode(this.refs.thread);
@@ -76,42 +72,63 @@ module.exports = React.createClass({
             node.scrollTop = node.scrollHeight
         }
     },
-    addMessage: function(message, direction) {
-        //TODO: Remove console logs.
-        console.log("Message: " + message + "\nDirection: " + direction)
-        // Get current messages.
+    addMessage: function(message, id) {
         var newMessages = this.state.messages
-        // Add new message.
         newMessages.push({
-            id: (newMessages.length + 1),
-            message: message,
-            direction: direction
+            id: id,
+            content: message,
+            direction: "from",
+            user: JSON.parse(localStorage.user)
         })
-        // Set new state.
+        // This creates a warning, and I can't figure out why
         this.setState({messages: newMessages})
+    },
+    sendMessage: function(message) {
+        var self = this;
+        $.ajax({
+            method: 'POST',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("Content-Type", 'application/json');
+            },
+            url: Config.apiBaseUrl + '/friends/' + self.props.user.id + '/messages',
+            data: JSON.stringify({content: message, contentType: 1})
+        }).done(function(result) {
+            if (result.success) {
+                self.addMessage(message, result.id)
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
     },
     render: function() {
         var self = this;
+
         let listStyles = {
             padding: '0',
-            listStyleType: "none",
-            margin: 0
+            listStyleType: 'none',
+            margin: 0,
+            flex: 1,
+            alignItems: 'stretch',
+            overflow: 'auto'
         }
 
-        let flexRowStyles = {
-          flex: 1,
-          overflow: 'auto'
+        let contentStyles = {
+            flex:1,
+            flexFlow: 'column',
+            display: 'flex',
         }
-
         var messages = this.state.messages.map(function(message) {
-            return <Message key={message.id} user={self.props.user} message={message} />
+            return <Message key={message.id} message={message} />
         });
 
         return (
-            <Paper ref='thread' style={flexRowStyles}>
-                <ul style={listStyles}>
+            <Paper style={contentStyles}>
+                <ul ref="thread" style={listStyles}>
                     {messages}
                 </ul>
+                <ChatBox sendMessage={this.sendMessage} />
             </Paper>
         );
     }
