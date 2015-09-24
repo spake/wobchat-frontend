@@ -8,7 +8,7 @@ class MessageStore {
 	this.bindActions(MessageActions);
 	this.messages = {};
     }
-    load(userId) {
+    loadMessages(userId) {
         let self = this;
         $.ajax({
             method: 'GET',
@@ -28,6 +28,11 @@ class MessageStore {
             console.log(jqXHR);
             console.log(textStatus);
         });
+    }
+    load(userId) {
+        this.loadMessages(userId);
+        // poll for new messages every second
+        setInterval(this.loadMessages.bind(this, userId), 1000);
     }
     send(message) {
         var self = this;

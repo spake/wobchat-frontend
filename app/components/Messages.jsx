@@ -9,9 +9,13 @@ class Messages extends React.Component {
         super(props);
         this.renderMessage = this.renderMessage.bind(this);
     }
-    componentDidUpdate() {
+    componentWillUpdate() {
         let node = React.findDOMNode(this.refs.thread);
-        if(node !== null) {
+        this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+    }
+    componentDidUpdate() {
+        if (this.shouldScrollBottom) {
+            let node = React.findDOMNode(this.refs.thread);
             node.scrollTop = node.scrollHeight
         }
     }
