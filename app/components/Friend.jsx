@@ -1,7 +1,7 @@
 import React from 'react';
 import {ListItem, Avatar} from 'material-ui';
 
-export default class Friend extends React.Component {
+class Friend extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -16,3 +16,14 @@ export default class Friend extends React.Component {
     );
   }
 }
+
+Friend.defaultProps = {
+    user: {
+        name: "John Wiseheart",
+        id: 1,
+        picture: ''
+    },
+    onClick: function() {}
+}
+
+module.exports = Friend;

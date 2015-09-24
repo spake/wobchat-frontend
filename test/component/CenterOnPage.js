@@ -2,7 +2,7 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    CenterOnPage = require('../../react_components/CenterOnPage.jsx'),
+    CenterOnPage = require('../../app/components/CenterOnPage.jsx'),
     AppBar = mui.AppBar;
 
 describe('CenterOnPage', function(){

@@ -5,7 +5,7 @@ import FriendStore from '../stores/FriendStore';
 let {ListDivider, Avatar} = mui;
 let Colors = mui.Styles.Colors;
 
-export default class Message extends React.Component {
+class Message extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -37,3 +37,13 @@ export default class Message extends React.Component {
         );
     }
 }
+
+Message.defaultProps = {
+    message: {
+        content: "Test Message",
+        direction: "from",
+        senderId: 1
+    }
+}
+
+module.exports = Message;

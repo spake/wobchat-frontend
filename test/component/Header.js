@@ -2,8 +2,8 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    Header = require('../../react_components/Header.jsx'),
-    SignInOut = require('../../react_components/SignInOut.jsx'),
+    Header = require('../../app/components/Header.jsx'),
+    SignInOut = require('../../app/components/SignInOut.jsx'),
     AppBar = mui.AppBar;
 
 describe('Header', function(){

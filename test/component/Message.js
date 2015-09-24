@@ -1,6 +1,6 @@
 var React = require('react/addons'),
     assert = require('assert'),
-    Message = require('../../react_components/Message.jsx'),
+    Message = require('../../app/components/Message.jsx'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui');
 

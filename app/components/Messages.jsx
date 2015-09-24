@@ -4,7 +4,7 @@ import MessageActions from '../actions/MessageActions'
 import MessageStore from '../stores/MessageStore'
 import {List, Paper} from 'material-ui';
 
-export default class Messages extends React.Component {
+class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.renderMessage = this.renderMessage.bind(this);
@@ -15,9 +15,6 @@ export default class Messages extends React.Component {
             node.scrollTop = node.scrollHeight
         }
     }
-
-
-
     render() {
         const messages = this.props.items;
         if (typeof messages === 'undefined') {
@@ -56,3 +53,15 @@ export default class Messages extends React.Component {
         )
     }
 }
+
+Messages.defaultProps = {
+    items: [
+        {
+            content: "Message",
+            senderId: 1,
+            id: 1
+        }
+    ]
+}
+
+module.exports = Messages;

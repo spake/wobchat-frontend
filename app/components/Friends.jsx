@@ -2,10 +2,9 @@ import React from 'react';
 import Friend from './Friend.jsx';
 import {List, Paper} from 'material-ui';
 
-export default class Friends extends React.Component {
+class Friends extends React.Component {
   constructor(props) {
     super(props);
-
     this.renderFriend = this.renderFriend.bind(this);
   }
   render() {
@@ -29,3 +28,17 @@ export default class Friends extends React.Component {
     );
   }
 }
+
+
+Friends.defaultProps = {
+    items: [
+        {
+            name: "John Wiseheart",
+            id: 1,
+            picture: ''
+        }
+    ],
+    onClick: function() {}
+ };
+
+module.exports = Friends;
