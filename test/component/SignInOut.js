@@ -2,7 +2,7 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    SignInOut = require('../../react_components/SignInOut.jsx');
+    SignInOut = require('../../app/components/SignInOut.jsx');
 
 describe('SignInOut', function() {
     before('testing', function() {

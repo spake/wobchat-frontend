@@ -2,12 +2,12 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    FriendsListItem = require('../../react_components/FriendsListItem.jsx');
+    Friend = require('../../app/components/Friend.jsx');
 
-describe('FriendsListItem', function(){
+describe('Friend', function(){
   before('testing', function() {
     var shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(React.createElement(FriendsListItem));
+    shallowRenderer.render(React.createElement(Friend));
     this.component = shallowRenderer.getRenderOutput();
   });
 

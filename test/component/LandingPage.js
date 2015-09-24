@@ -2,9 +2,9 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    CenterOnPage = require('../../react_components/CenterOnPage.jsx'),
-    Logo = require('../../react_components/Logo.jsx'),
-    LandingPage = require('../../react_components/LandingPage.jsx');
+    CenterOnPage = require('../../app/components/CenterOnPage.jsx'),
+    Logo = require('../../app/components/Logo.jsx'),
+    LandingPage = require('../../app/components/LandingPage.jsx');
 
 describe('LandingPage', function(){
   before('testing', function() {

@@ -9,21 +9,12 @@ require('babel/register');
 var port = process.env.port || 8000;
 
 gulp.task('browserify', function () {
-	gulp.src('react_components/App.jsx')
+	gulp.src('app/index.jsx')
 		.pipe(browserify({
 			transform: ['babelify', 'reactify']
 		}))
 		.pipe(rename('app.built.js'))
 		.pipe(gulp.dest('build'));
-});
-
-gulp.task('open', function(){
-	var options = {
-		url: 'http://localhost:' + port
-	};
-
-	gulp.src('index.html')
-	.pipe(open('', options));
 });
 
 gulp.task('connect', function () {
@@ -39,20 +30,14 @@ gulp.task('jsx', function() {
 		.pipe(connect.reload());
 });
 
-gulp.task('html', function(){
-	gulp.src('*.html')
-	.pipe(connect.reload());
-});
-
 gulp.task('watch', function () {
-	gulp.watch(['react_components/**/*.js', 'react_components/**/*.jsx'], function () {
+	gulp.watch(['app/**/*.js', 'app/**/*.jsx'], function () {
 		gulp.start('browserify');
 	});
 
-	gulp.watch('index.html', ['html']);
-	gulp.watch('react_components/**/*.jsx', ['jsx']);
+	gulp.watch('app/**/*.jsx', ['jsx']);
 });
 
 gulp.task('default', ['browserify']);
 
-gulp.task('serve', ['browserify', 'connect', 'open' ,'watch']);
+gulp.task('serve', ['browserify', 'connect','watch']);

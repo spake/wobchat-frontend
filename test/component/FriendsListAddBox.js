@@ -2,7 +2,7 @@ var React = require('react/addons'),
     assert = require('assert'),
     TestUtils = React.addons.TestUtils,
     mui = require('material-ui'),
-    FriendsListAddBox = require('../../react_components/FriendsListAddBox.jsx');
+    FriendsListAddBox = require('../../app/components/FriendsListAddBox.jsx');
 
 describe('FriendsListAddBox', function(){
   before('testing', function() {
