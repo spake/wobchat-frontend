@@ -1,27 +1,33 @@
-var React = require('react'),
-    mui = require('material-ui'),
-    ThemeManager = new mui.Styles.ThemeManager(),
-    RaisedButton = mui.RaisedButton,
-    PurpleTheme = require('./PurpleTheme.jsx'),
-    googleApiLoader = require('./GAPI.jsx'),
-    navigate = require('react-mini-router').navigate;
+
+
+
+import React from 'react';
+import PurpleTheme from './PurpleTheme.jsx';
+import googleApiLoader from './GAPI.jsx';
+import mui from 'material-ui';
+let {RaisedButton} = mui;
+let ThemeManager = new mui.Styles.ThemeManager();
+let navigate = require('react-mini-router').navigate;
+
 
 ThemeManager.setPalette(PurpleTheme);
-module.exports = React.createClass({
-    childContextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-    getChildContext: function() {
+
+class SignInOut extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loggedStatusLabel: "Loading..."
+        }
+
+        this.toggleLoggedStatus = this.toggleLoggedStatus.bind(this);
+    }
+    getChildContext() {
         return {
             muiTheme: ThemeManager.getCurrentTheme()
         };
-    },
-    getInitialState: function() {
-        return {
-            loggedStatusLabel: "Loading..."
-        };
-    },
-    componentDidMount: function() {
+    }
+    componentDidMount() {
         var self = this;
         var _this = this;
         googleApiLoader.authLoaded(function () {
@@ -51,8 +57,8 @@ module.exports = React.createClass({
         });
 
 
-    },
-    toggleLoggedStatus: function() {
+    }
+    toggleLoggedStatus() {
         if (googleApiLoader.getAuth2().isSignedIn.get()) {
             googleApiLoader.signOut();
             navigate('/');
@@ -65,8 +71,14 @@ module.exports = React.createClass({
             });
         }
 
-    },
-    render: function() {
+    }
+    render() {
             return <RaisedButton label={this.state.loggedStatusLabel} onClick={this.toggleLoggedStatus} />
     }
-});
+};
+
+SignInOut.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
+
+module.exports = SignInOut;

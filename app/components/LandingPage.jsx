@@ -1,22 +1,24 @@
-var React = require('react'),
-    Logo = require('./Logo.jsx'),
-    googleApiLoader = require('./GAPI.jsx'),
-    CenterOnPage = require('./CenterOnPage.jsx'),
-    navigate = require('react-mini-router').navigate;
+import React from 'react';
+import mui from 'material-ui';
+import Logo from './Logo.jsx';
+import CenterOnPage from './CenterOnPage.jsx';
+import googleApiLoader from './GAPI.jsx';
+let navigate = require('react-mini-router').navigate;
 
-module.exports = React.createClass({
-    componentDidMount: function() {
+
+export default class LandingPage extends React.Component {
+    componentDidMount() {
         googleApiLoader.authLoaded(function () {
             if (googleApiLoader.getAuth2().isSignedIn.get()) {
                 navigate('/chat');
             }
         });
-    },
-    render: function() {
+    }
+    render() {
         return (
                 <CenterOnPage>
                     <Logo />
                 </CenterOnPage>
         );
     }
-})
+}
