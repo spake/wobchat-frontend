@@ -1,7 +1,7 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
-    render: function() {
+export default class CenterOnPage extends React.Component {
+    render() {
         var style = {
             display: 'flex',
             justifyContent: 'center',
@@ -14,6 +14,6 @@ module.exports = React.createClass({
                 {this.props.children}
                 </div>
             </div>
-        );
+        )
     }
-})
+}

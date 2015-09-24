@@ -1,21 +1,19 @@
-var React = require('react'),
-    mui = require('material-ui'),
-    AppBar = mui.AppBar,
-    SignInOut = require('./SignInOut.jsx'),
-    ThemeManager = new mui.Styles.ThemeManager(),
-    PurpleTheme  = require('./PurpleTheme.jsx');
+import React from 'react';
+import mui from 'material-ui';
+import SignInOut from './SignInOut.jsx';
+let {AppBar} = mui;
+let ThemeManager = new mui.Styles.ThemeManager();
+
 
 ThemeManager.setPalette(PurpleTheme);
-module.exports = React.createClass({
-    childContextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-    getChildContext: function() {
+
+class Header extends React.Component {
+    getChildContext() {
         return {
             muiTheme: ThemeManager.getCurrentTheme()
         };
-    },
-    render: function() {
+    }
+    render() {
         var appBarStyle = {
             position: "fixed",
             top: 0,
@@ -35,6 +33,13 @@ module.exports = React.createClass({
                     showMenuIconButton={false}
                     style={{zIndex: 20}}
                     iconElementRight={<div style={signStyle}><SignInOut/></div>}/>
-        );
+        )
     }
-})
+}
+
+
+Header.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
+
+module.exports = Header;

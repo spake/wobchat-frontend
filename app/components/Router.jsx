@@ -4,7 +4,7 @@ var React = require('react'),
     ChatPage = require('./ChatPage.jsx'),
     RouterMixin = require('react-mini-router').RouterMixin;
 
-var Router = React.createClass({
+var InternalRouter = React.createClass({
     mixins: [RouterMixin],
     routes: {
         '/': 'home',
@@ -24,20 +24,20 @@ var Router = React.createClass({
     }
 });
 
-
-module.exports = React.createClass({
-    render: function() {
+export default class Router extends React.Component {
+    render() {
         let divStyle={
             display: 'flex',
             WebkitFlexDirection: 'column',
             flexDirection: 'column',
             height: '100%'
         }
+
         return (
             <div style={divStyle}>
                 <Header />
-                <Router />
+                <InternalRouter />
             </div>
         );
     }
-})
+}
