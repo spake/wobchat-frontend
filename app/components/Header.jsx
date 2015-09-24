@@ -1,6 +1,7 @@
 import React from 'react';
 import mui from 'material-ui';
 import SignInOut from './SignInOut.jsx';
+import PurpleTheme from './PurpleTheme.jsx';
 let {AppBar} = mui;
 let ThemeManager = new mui.Styles.ThemeManager();
 
