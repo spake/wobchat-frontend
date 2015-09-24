@@ -7,18 +7,9 @@ class MessageStore {
     constructor() {
 	this.bindActions(MessageActions);
 	this.messages = {};
-        this.exportPublicMethods({
-            isLoaded: this.isLoaded.bind(this)
-        });
-
-    }
-    isLoaded(userId) {
-        console.log(this.messages, userId)
-        return userId in this.messages;
     }
     load(userId) {
         let self = this;
-        console.log("Loading", userId)
         $.ajax({
             method: 'GET',
             beforeSend: function (request) {
@@ -28,7 +19,6 @@ class MessageStore {
         }).done(function(result) {
             if (result.success) {
                 let messages = self.messages;
-                console.log(userId, "Stuff is happening")
                 messages[userId] = result.messages;
                 self.setState({messages: messages})
             } else {

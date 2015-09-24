@@ -9,11 +9,12 @@ class FriendStore {
 	this.friends = [];
         this.me = {};
         this.exportPublicMethods({
-            get: this.getFriend.bind(this)
+            get: this.getFriend.bind(this),
+            pullInfo: this.pullInfo.bind(this)
         });
-
+    }
+    pullInfo() {
 	let self = this;
-
         // Get the info about the current user
         $.ajax({
             method: 'GET',
@@ -39,6 +40,7 @@ class FriendStore {
                 self.setState({friends: result.friends})
             }
         });
+
     }
     add(id) {
         // Add a friend by ID

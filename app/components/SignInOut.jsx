@@ -1,9 +1,7 @@
-
-
-
 import React from 'react';
 import PurpleTheme from './PurpleTheme.jsx';
 import googleApiLoader from './GAPI.jsx';
+import FriendStore from '../stores/FriendStore';
 import mui from 'material-ui';
 let {RaisedButton} = mui;
 let ThemeManager = new mui.Styles.ThemeManager();
@@ -44,6 +42,7 @@ class SignInOut extends React.Component {
                         picture: user.getBasicProfile().getImageUrl(),
                         id: user.getBasicProfile().getId()
                     });
+                    FriendStore.pullInfo();
                     navigate('/chat');
                 } else {
                     _this.setState({loggedStatusLabel: 'Sign In'});

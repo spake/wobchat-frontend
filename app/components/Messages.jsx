@@ -11,8 +11,9 @@ export default class Messages extends React.Component {
     }
     componentDidUpdate() {
         let node = React.findDOMNode(this.refs.thread);
-        //TODO: this wil always skip to bottom
-        node.scrollTop = node.scrollHeight
+        if(node !== null) {
+            node.scrollTop = node.scrollHeight
+        }
     }
 
 
@@ -22,8 +23,6 @@ export default class Messages extends React.Component {
         if (typeof messages === 'undefined') {
             return null;
         }
-        console.log("WE RENDERED")
-        console.log(this.refs.thread)
         let listStyles = {
             padding: '0',
             listStyleType: 'none',
