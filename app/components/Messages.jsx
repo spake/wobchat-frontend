@@ -9,10 +9,15 @@ export default class Messages extends React.Component {
         super(props);
         this.renderMessage = this.renderMessage.bind(this);
     }
-    componentDidUpdate() {
+    componentWillUpdate() {
         let node = React.findDOMNode(this.refs.thread);
-        //TODO: this wil always skip to bottom
-        node.scrollTop = node.scrollHeight
+        this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+    }
+    componentDidUpdate() {
+        if (this.shouldScrollBottom) {
+            let node = React.findDOMNode(this.refs.thread);
+            node.scrollTop = node.scrollHeight
+        }
     }
 
 
@@ -41,8 +46,8 @@ export default class Messages extends React.Component {
         }
 
         return (
-            <Paper style={contentStyles}>
-                <ul ref="thread" style={listStyles}>
+            <Paper ref="thread" style={contentStyles}>
+                <ul style={listStyles}>
                     {messages.map(this.renderMessage)}
                 </ul>
             </Paper>
