@@ -1,9 +1,10 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
-    render: function() {
+
+export default class Message extends React.Component {
+    render() {
         return (
             <img src="./resources/logo.png"/>
         );
     }
-});
+}
