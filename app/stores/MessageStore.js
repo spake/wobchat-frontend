@@ -96,7 +96,7 @@ class MessageStore {
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friends/' + message.recipientId + '/messages',
-            data: JSON.stringify({content: message.content, contentType: 1})
+            data: JSON.stringify(message)
         }).done(function(result) {
             if (result.success) {
                 message.id = result.id
@@ -110,6 +110,8 @@ class MessageStore {
                 self.setState({
                     messages: messages
                 });
+            } else {
+                console.log(result.error)
             }
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR);
