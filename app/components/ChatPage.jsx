@@ -27,8 +27,15 @@ class ChatPage extends React.Component {
             search: ""
         };
 
+        document.addEventListener('DOMContentLoaded', function () {
+          if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        });
+
         this.openFriend = this.openFriend.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
+        this.notify = this.notify.bind(this);
+        this.notify()
     }
     render() {
         let sidebarStyles = {
@@ -98,11 +105,32 @@ class ChatPage extends React.Component {
         MessageActions.load(id)
         this.setState({currentChatUser: id});
     }
-
     handleTextChange(ev) {
         this.setState({search: ev.target.value});
     }
+    notify() {
+        let sound = new Audio('/resources/notify.mp3')
+        sound.play()
+        if (!Notification) {
+            alert('Desktop notifications not available in your browser. Try Chromium.'); 
+            return;
+        }
 
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        else {
+            let notification = new Notification('New Message from WobChat', {
+              icon: 'https://wob.chat/resources/logo.png',
+              body: "You have a new message on WobChat!",
+            });
+
+            notification.onclick = function () {
+              window.open("https://wob.chat/#!/chat");
+            };
+
+        }
+
+    }
 }
 
 ChatPage.childContextTypes = {

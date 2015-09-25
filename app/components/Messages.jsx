@@ -45,6 +45,7 @@ class Messages extends React.Component {
                 <ul ref="thread" style={listStyles}>
                     {messages.map(this.renderMessage)}
                 </ul>
+
             </Paper>
         );
     }
