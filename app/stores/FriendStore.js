@@ -10,7 +10,8 @@ class FriendStore {
         this.me = {};
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
-            pullInfo: this.pullInfo.bind(this)
+            pullInfo: this.pullInfo.bind(this),
+            deleteFriend: this.deleteFriend.bind(this)
         });
     }
     pullInfo() {
@@ -65,8 +66,30 @@ class FriendStore {
             console.log(textStatus);
         });
     }
-    delete(id) {
+    deleteFriend(id) {
       // not implemented	
+        let self = this;
+        $.ajax({
+            method: 'DELETE',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", localStorage.token);
+            },
+            url: Config.apiBaseUrl + '/friends/' + id,
+        }).done(function(result) {
+            if (result.success) {
+                const friends = self.friends;
+                for (let i = 0; i < friends.length; i++) {
+                    if (friends[i].id == id) {
+                        self.setState({
+                            friends: friends.splice(i, 1)
+                        });
+                    }
+                }
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
     }
     getFriend(id) {
         // Gets information about a friend (or yourself) by ID

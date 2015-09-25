@@ -19,6 +19,9 @@ class DeleteFriendModal extends React.Component {
         this.props.cancelDelete(this.props.user);
     }
 
+    show() {
+        this.refs.dialog.show()
+    }
 
     render() {
         let user = this.props.user;
