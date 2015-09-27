@@ -1,4 +1,5 @@
 import React from 'react';
+import FriendActions from '../actions/FriendActions'
 import {Dialog} from 'material-ui';
 
 class DeleteFriendModal extends React.Component {
@@ -10,13 +11,16 @@ class DeleteFriendModal extends React.Component {
     }
 
     deleteFriend() {
+        let user = this.props.user;
         this.refs.dialog.dismiss();
-        this.props.deleteFriend(this.props.user);
+        console.log('delete friend ' + user);
+        FriendActions.deleteFriend(user.id);
+        
     }
 
     cancelDelete() {
         this.refs.dialog.dismiss();
-        this.props.cancelDelete(this.props.user);
+        console.log('delete friend cancelled');
     }
 
     show() {

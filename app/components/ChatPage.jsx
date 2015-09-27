@@ -59,7 +59,7 @@ class ChatPage extends React.Component {
         return (
             <div style={mainStyles}>
                 <div style={sidebarStyles}>
-                    <FriendsListAddBox addFriend={this.addFriend}/>
+                    <FriendsListAddBox />
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {

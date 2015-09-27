@@ -13,23 +13,12 @@ class Friend extends React.Component {
         super(props);
 
         this.launchModal = this.launchModal.bind(this)
-        this.deleteFriend = this.deleteFriend.bind(this)
-        this.cancelDelete = this.cancelDelete.bind(this)
     }
 
     launchModal(ev, item) {
         if (item.props.children == "Remove") {
             this.refs.modal.show();
         }
-    }
-
-    deleteFriend() {
-        console.log('delete friend ' + this.props.user.id);
-        FriendStore.deleteFriend(this.props.user.id)
-    }
-
-    cancelDelete() {
-        console.log('cancel delete friend'); 
     }
 
     render() {
@@ -55,7 +44,7 @@ class Friend extends React.Component {
                 onClick={this.props.onClick}
                 rightIconButton={rightIconButton}
             />
-            <DeleteFriendModal ref="modal" user={user} deleteFriend={this.deleteFriend} cancelDelete={this.cancelDelete} />
+            <DeleteFriendModal ref="modal" user={user} />
             </div>
     );
   }

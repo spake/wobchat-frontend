@@ -29,12 +29,14 @@ class FriendsAddBox extends React.Component {
     }
     handleTextChange(event) {
         this.setState({search: event.target.value});
+        console.log(this.state.search);
     }
     handleTextEnter(ev) {
         var self = this;
         var keycode = (ev.keyCode ? ev.keyCode : ev.which);
         if (keycode == '13') {
             FriendActions.add(self.state.search);
+            console.log('enter pressed ' + this.state.search)
         }
     }
     render() {

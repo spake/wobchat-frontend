@@ -5,8 +5,8 @@ import FriendActions from '../actions/FriendActions';
 
 class FriendStore {
     constructor() {
-	this.bindActions(FriendActions);
-	this.friends = [];
+	    this.bindActions(FriendActions);
+	    this.friends = [];
         this.me = {};
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
@@ -15,7 +15,7 @@ class FriendStore {
         });
     }
     pullInfo() {
-	let self = this;
+	    let self = this;
         // Get the info about the current user
         $.ajax({
             method: 'GET',
@@ -30,7 +30,7 @@ class FriendStore {
         });
 
         // Pulls all the other friends
-	$.ajax({
+	    $.ajax({
             method: 'GET',
             beforeSend: function (request) {
                 request.setRequestHeader("X-Session-Token", localStorage.token);
@@ -67,7 +67,7 @@ class FriendStore {
         });
     }
     deleteFriend(id) {
-      // not implemented	
+        // Delete a friend by ID
         let self = this;
         $.ajax({
             method: 'DELETE',
