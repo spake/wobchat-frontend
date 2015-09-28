@@ -5,8 +5,8 @@ import MessageActions from '../actions/MessageActions';
 
 class MessageStore {
     constructor() {
-	this.bindActions(MessageActions);
-	this.messages = {};
+	    this.bindActions(MessageActions);
+	    this.messages = {};
     }
     loadMessages(userId) {
         let self = this;

@@ -56,10 +56,12 @@ class FriendStore {
             data: JSON.stringify({id: parseInt(id)})
         }).done(function(result) {
             if (result.success) {
-        	const friends = self.friends;
-        	self.setState({
-        	    friends: friends.concat(result.friend)
-        	});
+        	    const friends = self.friends;
+        	    self.setState({
+        	        friends: friends.concat(result.friend)
+        	    });
+                console.log('friend added ')
+                console.log(self.friends);
             }
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR);
@@ -77,12 +79,14 @@ class FriendStore {
             url: Config.apiBaseUrl + '/friends/' + id,
         }).done(function(result) {
             if (result.success) {
-                const friends = self.friends;
+                let friends = self.friends;
                 for (let i = 0; i < friends.length; i++) {
                     if (friends[i].id == id) {
+                        friends.splice(i, 1)
                         self.setState({
-                            friends: friends.splice(i, 1)
+                            friends: friends
                         });
+                        break;
                     }
                 }
             }

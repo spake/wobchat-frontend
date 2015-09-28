@@ -13,14 +13,11 @@ class DeleteFriendModal extends React.Component {
     deleteFriend() {
         let user = this.props.user;
         this.refs.dialog.dismiss();
-        console.log('delete friend ' + user);
         FriendActions.deleteFriend(user.id);
-        
     }
 
     cancelDelete() {
         this.refs.dialog.dismiss();
-        console.log('delete friend cancelled');
     }
 
     show() {

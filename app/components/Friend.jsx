@@ -12,10 +12,12 @@ class Friend extends React.Component {
     constructor(props) {
         super(props);
 
-        this.launchModal = this.launchModal.bind(this)
+        this.handleMenuItemClicked = this.handleMenuItemClicked.bind(this)
     }
 
-    launchModal(ev, item) {
+    handleMenuItemClicked(ev, item) {
+        // Handle all menu item clicks for IconMenu here
+        // item.props.children == text in menu item
         if (item.props.children == "Remove") {
             this.refs.modal.show();
         }
@@ -30,9 +32,8 @@ class Friend extends React.Component {
                 <MoreVertIcon />
             </IconButton>;
         let rightIconButton = 
-            <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.launchModal}>
+            <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
                 <MenuItem index={0}>Remove</MenuItem>
-                <MenuItem index={1}>Potato</MenuItem>
             </IconMenu>;
 
         return (
