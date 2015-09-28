@@ -60,8 +60,6 @@ class FriendStore {
         	    self.setState({
         	        friends: friends.concat(result.friend)
         	    });
-                console.log('friend added ')
-                console.log(self.friends);
             }
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR);
