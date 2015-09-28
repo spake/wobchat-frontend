@@ -11,7 +11,6 @@ class FriendStore {
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
             pullInfo: this.pullInfo.bind(this),
-            deleteFriend: this.deleteFriend.bind(this)
         });
 
         this.pullInfo = this.pullInfo.bind(this);
@@ -83,7 +82,7 @@ class FriendStore {
         $.ajax({
             method: 'DELETE',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("X-Session-Token", self.me.token);
             },
             url: Config.apiBaseUrl + '/friends/' + id,
         }).done(function(result) {
