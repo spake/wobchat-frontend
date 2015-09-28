@@ -19,6 +19,9 @@ class ChatBox extends React.Component {
     }
     sendMessage(event) {
         var content = event.target.value
+        if (content == "") {
+            return;
+        }
         this.refs.sendMessageBox.clearValue()
         let message = {
             senderId: FriendStore.getState().me.id,
