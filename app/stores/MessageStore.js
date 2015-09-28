@@ -1,7 +1,8 @@
 import uuid from 'node-uuid';
 import alt from '../libs/alt';
-import Config from '../components/Config.jsx'
+import Config from '../libs/Config'
 import MessageActions from '../actions/MessageActions';
+import FriendStore from '../stores/FriendStore';
 
 class MessageStore {
     constructor() {
@@ -13,7 +14,8 @@ class MessageStore {
         $.ajax({
             method: 'GET',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                const token = FriendStore.getState().me.token
+                request.setRequestHeader("X-Session-Token", token);
             },
             url: Config.apiBaseUrl + '/friends/' + userId + '/messages',
         }).done(function(result) {
@@ -39,7 +41,8 @@ class MessageStore {
         $.ajax({
             method: 'POST',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                const token = FriendStore.getState().me.token
+                request.setRequestHeader("X-Session-Token", token);
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friends/' + message.recipientId + '/messages',

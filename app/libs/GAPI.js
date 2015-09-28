@@ -1,3 +1,5 @@
+import Config from './Config'
+
 var clientsLoaded = 0;
 
 var sign2Loaded = false;
@@ -92,7 +94,7 @@ module.exports.gapiLoaded(function () {
 
     gapi.load('auth2', function () {
         auth2 = gapi.auth2.init({
-            client_id: '783279836221-m71iri9830ptguifn0apfbsnj22pfeel.apps.googleusercontent.com',
+            client_id: Config.client_id,
             scopes: 'email'
         });
         auth2Loaded = true;

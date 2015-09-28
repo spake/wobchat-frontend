@@ -2,7 +2,7 @@ import React from 'react';
 import mui from 'material-ui';
 import Logo from './Logo.jsx';
 import CenterOnPage from './CenterOnPage.jsx';
-import googleApiLoader from './GAPI.jsx';
+import googleApiLoader from '../libs/GAPI';
 let navigate = require('react-mini-router').navigate;
 
 

@@ -2,9 +2,12 @@ import React from 'react';
 import MessageActions from '../actions/MessageActions';
 import MessageStore from '../stores/MessageStore';
 import FriendStore from '../stores/FriendStore';
+import PurpleTheme from './PurpleTheme.jsx';
 import mui from 'material-ui';
 let {Paper, TextField} = mui;
 let ThemeManager = new mui.Styles.ThemeManager();
+
+ThemeManager.setPalette(PurpleTheme);
 
 class ChatBox extends React.Component {
     getChildContext() {
@@ -19,6 +22,9 @@ class ChatBox extends React.Component {
     }
     sendMessage(event) {
         var content = event.target.value
+        if (content == "") {
+            return;
+        }
         this.refs.sendMessageBox.clearValue()
         let message = {
             senderId: FriendStore.getState().me.id,

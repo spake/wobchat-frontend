@@ -1,6 +1,6 @@
 import uuid from 'node-uuid';
 import alt from '../libs/alt';
-import Config from '../components/Config.jsx'
+import Config from '../libs/Config'
 import FriendActions from '../actions/FriendActions';
 
 class FriendStore {
@@ -13,19 +13,30 @@ class FriendStore {
             pullInfo: this.pullInfo.bind(this),
             deleteFriend: this.deleteFriend.bind(this)
         });
+
+        this.pullInfo = this.pullInfo.bind(this);
     }
-    pullInfo() {
-	    let self = this;
+    pullInfo(token) {
+    	let self = this;
+        let me = this.me;
+        me.token = token
+        self.setState({me: me})
+
         // Get the info about the current user
         $.ajax({
             method: 'GET',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("X-Session-Token", token);
             },
             url: Config.apiBaseUrl + '/me',
         }).done(function(result) {
             if (result.success) {
-                self.setState({me: result.user})
+                let me = self.me;
+                me.id = result.user.id;
+                me.picture = result.user.picture;
+                me.name = result.user.name;
+                self.setState({me: me})
+                console.log(self.me)
             }
         });
 
@@ -33,7 +44,7 @@ class FriendStore {
 	    $.ajax({
             method: 'GET',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("X-Session-Token", token);
             },
             url: Config.apiBaseUrl + '/friends',
         }).done(function(result) {
@@ -49,7 +60,7 @@ class FriendStore {
         $.ajax({
             method: 'POST',
             beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", localStorage.token);
+                request.setRequestHeader("X-Session-Token", self.me.token);
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friends',

@@ -1,6 +1,6 @@
 import React from 'react';
 import PurpleTheme from './PurpleTheme.jsx';
-import googleApiLoader from './GAPI.jsx';
+import googleApiLoader from '../libs/GAPI';
 import FriendStore from '../stores/FriendStore';
 import mui from 'material-ui';
 let {RaisedButton} = mui;
@@ -35,20 +35,10 @@ class SignInOut extends React.Component {
                 _this.setState({finishedLoading: true});
                 if (googleApiLoader.getAuth2().isSignedIn.get()) {
                     _this.setState({loggedStatusLabel: 'Sign Out'});
-                    localStorage.token = user.getAuthResponse().id_token;
-                    localStorage.userId = user.getBasicProfile().getId();
-                    localStorage.user = JSON.stringify({
-                        name: user.getBasicProfile().getName(),
-                        picture: user.getBasicProfile().getImageUrl(),
-                        id: user.getBasicProfile().getId()
-                    });
-                    FriendStore.pullInfo();
+                    FriendStore.pullInfo(user.getAuthResponse().id_token);
                     navigate('/chat');
                 } else {
                     _this.setState({loggedStatusLabel: 'Sign In'});
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('userId');
                     navigate('/');
                 }
             });
