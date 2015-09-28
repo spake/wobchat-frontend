@@ -44,4 +44,14 @@ class DeleteFriendModal extends React.Component {
     }
 }
 
+DeleteFriendModal.defaultProps = {
+    user: {
+        name: "John Wiseheart",
+        id: 1,
+        picture: ''
+    }
+}
+
 module.exports = DeleteFriendModal;
+
+
