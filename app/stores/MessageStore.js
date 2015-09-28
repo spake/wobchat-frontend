@@ -6,8 +6,8 @@ import FriendStore from '../stores/FriendStore';
 
 class MessageStore {
     constructor() {
-	this.bindActions(MessageActions);
-	this.messages = {};
+	    this.bindActions(MessageActions);
+	    this.messages = {};
     }
     loadMessages(userId) {
         let self = this;

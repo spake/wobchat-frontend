@@ -5,18 +5,18 @@ import FriendActions from '../actions/FriendActions';
 
 class FriendStore {
     constructor() {
-	this.bindActions(FriendActions);
-	this.friends = [];
+	    this.bindActions(FriendActions);
+	    this.friends = [];
         this.me = {};
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
-            pullInfo: this.pullInfo.bind(this)
+            pullInfo: this.pullInfo.bind(this),
         });
 
         this.pullInfo = this.pullInfo.bind(this);
     }
     pullInfo(token) {
-	let self = this;
+    	let self = this;
         let me = this.me;
         me.token = token
         self.setState({me: me})
@@ -40,7 +40,7 @@ class FriendStore {
         });
 
         // Pulls all the other friends
-	$.ajax({
+	    $.ajax({
             method: 'GET',
             beforeSend: function (request) {
                 request.setRequestHeader("X-Session-Token", token);
@@ -66,18 +66,42 @@ class FriendStore {
             data: JSON.stringify({id: parseInt(id)})
         }).done(function(result) {
             if (result.success) {
-        	const friends = self.friends;
-        	self.setState({
-        	    friends: friends.concat(result.friend)
-        	});
+        	    const friends = self.friends;
+        	    self.setState({
+        	        friends: friends.concat(result.friend)
+        	    });
             }
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR);
             console.log(textStatus);
         });
     }
-    delete(id) {
-      // not implemented	
+    deleteFriend(id) {
+        // Delete a friend by ID
+        let self = this;
+        $.ajax({
+            method: 'DELETE',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", self.me.token);
+            },
+            url: Config.apiBaseUrl + '/friends/' + id,
+        }).done(function(result) {
+            if (result.success) {
+                let friends = self.friends;
+                for (let i = 0; i < friends.length; i++) {
+                    if (friends[i].id == id) {
+                        friends.splice(i, 1)
+                        self.setState({
+                            friends: friends
+                        });
+                        break;
+                    }
+                }
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
     }
     getFriend(id) {
         // Gets information about a friend (or yourself) by ID
