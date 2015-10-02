@@ -29,7 +29,6 @@ class ChatPage extends React.Component {
 
         this.openFriend = this.openFriend.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
-        this.handleTextEnter = this.handleTextEnter.bind(this);
     }
     render() {
         let sidebarStyles = {
@@ -69,7 +68,7 @@ class ChatPage extends React.Component {
             <div style={mainStyles}>
                 <div style={sidebarStyles}>
                     <TextField hintText="Add friends..." style={addBoxStyle} value={this.state.search}
-                       onChange={this.handleTextChange} onKeyUp={this.handleTextEnter} />
+                       onChange={this.handleTextChange}  />
                     {this.state.search.length > 0 ?
                     <UserSearch search={this.state.search} />
                     : 
@@ -101,17 +100,9 @@ class ChatPage extends React.Component {
     }
 
     handleTextChange(ev) {
-        console.log(ev.target.value);
         this.setState({search: ev.target.value});
     }
 
-    handleTextEnter(ev) {
-        let self = this;
-        let keycode = (ev.keycode ? ev.keycode : ev.which);
-        if (keycode == '13') {
-            FriendActions.add(self.state.search);
-        }
-    }
 }
 
 ChatPage.childContextTypes = {

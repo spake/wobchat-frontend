@@ -4,6 +4,7 @@ import Friend from './Friend.jsx';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
 import Config from '../libs/Config';
+import User from './User.jsx'
 let {List, ListItem, Paper} = mui;
 
 class UserSearch extends React.Component {
@@ -32,27 +33,23 @@ class UserSearch extends React.Component {
 
     renderUser(user) {
         return (
-            <Friend
+            <User
                 key={user.id}
                 user={user}
-                onClick={FriendActions.add(user.id)}
             />
         );
     }
 
-    componentWillMount() {
+    componentWillReceiveProps(nextProps) {
+        this.searchUsers(nextProps); 
+    }
+
+    componentDidMount() {
         this.searchUsers(this.props);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.search == "") {
-            return false;
-        }
-        return true;
-    }
-
-    componentWillReceiveProps(nextProps) {
-       this.searchUsers(nextProps); 
+    componentWillUnmount() {
+        this.isUnmounted = true;
     }
 
     searchUsers(props) {
@@ -65,7 +62,9 @@ class UserSearch extends React.Component {
             url: Config.apiBaseUrl + '/users?q=' + props.search,
         }).done(function(result) {
             if (result.success) {
-                self.setState({ users: result.users});
+                if (!self.isUnmounted) {
+                    self.setState({ users: result.users});
+                }
             }
         });
     }
