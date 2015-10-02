@@ -71,7 +71,7 @@ class ChatPage extends React.Component {
                     <TextField hintText="Add friends..." style={addBoxStyle} value={this.state.search}
                        onChange={this.handleTextChange} onKeyUp={this.handleTextEnter} />
                     {this.state.search.length > 0 ?
-                    <UserSearch search={this.state.search}/>
+                    <UserSearch search={this.state.search} />
                     : 
                     <AltContainer
                         stores={[FriendStore]}
@@ -101,6 +101,7 @@ class ChatPage extends React.Component {
     }
 
     handleTextChange(ev) {
+        console.log(ev.target.value);
         this.setState({search: ev.target.value});
     }
 
