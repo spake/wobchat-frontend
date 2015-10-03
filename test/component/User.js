@@ -9,7 +9,7 @@ var React = require('react/addons'),
     IconMenu = mui.IconMenu,
     MenuItem = mui.MenuItem;
 
-describe('Friend', function(){
+describe('User', function(){
   before('testing', function() {
     var shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(React.createElement(User));
