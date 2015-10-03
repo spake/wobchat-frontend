@@ -5,7 +5,6 @@ var React = require('react/addons'),
     TextField = mui.TextField,
     Friends = require('../../app/components/Friends.jsx'),
     ChatPage = require('../../app/components/ChatPage.jsx'),
-    FriendsListAddBox = require('../../app/components/FriendsListAddBox.jsx'),
     AltContainer = require('alt/AltContainer');
 
 describe('ChatPage', function(){
@@ -23,8 +22,8 @@ describe('ChatPage', function(){
     assert(this.component.props.children[0].type == 'div');
   });
 
-  it('should render a FriendsListAddBox inside that div', function() {
-    assert(this.component.props.children[0].props.children[0].type == FriendsListAddBox);
+  it('should render a TextField inside that div', function() {
+    assert(this.component.props.children[0].props.children[0].type == TextField);
   });
 
   it('should render an AltContainer inside previous div', function() {

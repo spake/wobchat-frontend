@@ -4,8 +4,7 @@ var React = require('react/addons'),
     mui = require('material-ui'),
     List = mui.List,
     Paper = mui.Paper,
-    Friends = require('../../app/components/Friends.jsx'),
-    FriendsListAddBox = require('../../app/components/FriendsListAddBox.jsx');
+    Friends = require('../../app/components/Friends.jsx');
 
 describe('Friends', function(){
   before('testing', function() {

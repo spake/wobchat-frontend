@@ -3,12 +3,13 @@ import React from 'react';
 import Friends from './Friends.jsx';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
-import FriendsListAddBox from './FriendsListAddBox.jsx';
 import Messages from './Messages.jsx';
 import MessageActions from '../actions/MessageActions';
 import MessageStore from '../stores/MessageStore';
 import ChatBox from './ChatBox.jsx';
+import UserSearch from './UserSearch.jsx';
 import mui from 'material-ui';
+let {TextField} = mui;
 let ThemeManager = new mui.Styles.ThemeManager();
 
 
@@ -22,10 +23,12 @@ class ChatPage extends React.Component {
         super(props);
 
         this.state = {
-            currentChatUser: -1
+            currentChatUser: -1,
+            search: ""
         };
 
         this.openFriend = this.openFriend.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
     }
     render() {
         let sidebarStyles = {
@@ -55,11 +58,20 @@ class ChatPage extends React.Component {
           display: 'flex',
         }
 
+        let addBoxStyle = {
+          padding: '0 0 0 15px',
+          margin: 0
+        }
+
         let self = this;
         return (
             <div style={mainStyles}>
                 <div style={sidebarStyles}>
-                    <FriendsListAddBox />
+                    <TextField hintText="Add friends..." style={addBoxStyle} value={this.state.search}
+                       onChange={this.handleTextChange}  />
+                    {this.state.search.length > 0 ?
+                    <UserSearch search={this.state.search} />
+                    : 
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {
@@ -67,6 +79,7 @@ class ChatPage extends React.Component {
                         } }>
                         <Friends onClick={this.openFriend} />
                     </AltContainer>
+                    }
                 </div>
                 {self.state.currentChatUser != -1 ? <div style={messagesStyles}>
                   <AltContainer
@@ -85,6 +98,11 @@ class ChatPage extends React.Component {
         MessageActions.load(id)
         this.setState({currentChatUser: id});
     }
+
+    handleTextChange(ev) {
+        this.setState({search: ev.target.value});
+    }
+
 }
 
 ChatPage.childContextTypes = {
