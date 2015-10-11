@@ -28,8 +28,8 @@
     "superagent": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register --recursive",
-    "bamboo": "mocha -R mocha-bamboo-reporter --compilers js:babel/register --recursive"
+    "test": "mocha -r mock-local-storage --compilers js:babel/register --recursive",
+    "bamboo": "mocha -R mocha-bamboo-reporter -r mock-local-storage --compilers js:babel/register --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -44,5 +44,8 @@
     "unmockedModulePathPatterns": [
       "node_modules/react"
     ]
+  },
+  "devDependencies": {
+    "mock-local-storage": "^1.0.2"
   }
 }
