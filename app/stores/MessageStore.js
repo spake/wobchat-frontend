@@ -12,7 +12,7 @@ class MessageStore {
 	    this.messages = {};
         this.mostRecentId = -1;
     }
-    add(msgEvent) {
+    add(msgEvent, userId) {
         console.log("Message receieved.");
         console.log("Adding message.");
 
@@ -39,8 +39,15 @@ class MessageStore {
                 request.setRequestHeader("X-Session-Token", token);
             },
             url: url,
-            timeout: 60000 // milliseconds
-        }).done(self.add).fail(function(userId) {
+            timeout: 70000 // milliseconds
+        }).done(function(data) {
+            if (data.success == false) {
+                console.log("Longpoll unsuccessful.");
+                self.poll(userId);
+            } else {
+                self.add(data, userId);
+            }
+        }).fail(function(userId) {
             console.log("Message Poll Failed.");
             // TODO: Handle possible errors here.
             self.poll(userId); }
