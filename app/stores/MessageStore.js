@@ -65,7 +65,15 @@ class MessageStore {
         }).done(function(result) {
             if (result.success) {
                 let messages = self.messages;
-                messages[userId] = result.messages;
+                let resMessages = result.messages;
+                resMessages.forEach(function(entry) {
+                    if (entry.senderId != userId) {
+                        entry.direction = "from";
+                    } else {
+                        entry.direction = "to";
+                    }
+                });
+                messages[userId] = resMessages;
                 self.setState({messages: messages})
                 // Update most recent msg ID
                 var newId = messages[userId][messages[userId].length - 1].id;

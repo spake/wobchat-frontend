@@ -36,15 +36,28 @@ class ChatBox extends React.Component {
         }
         MessageActions.send(message);
     }
-    onClick(video, event) {
+    sendVideo(video, event) {
       let message = {
         senderId: FriendStore.getState().me.id,
-        content: "You have sent a video: " + video,
+        content: video,
         contentType: 2,
+        direction: "from",
         recipientId: this.props.userId
       }
       MessageActions.send(message);
       console.log("Sent: " + video)
+    }
+    sendShake() {
+    let message = {
+        senderId: FriendStore.getState().me.id,
+        content: "",
+        contentType: 3,
+        direction: "from",
+        recipientId: this.props.userId
+      }
+      MessageActions.send(message);
+      console.log("Sent shake")
+
     }
     render() {
          var style = {
@@ -54,9 +67,12 @@ class ChatBox extends React.Component {
 
         return (
           <Paper style={style}>
-            <FlatButton label="Skeletal" onClick={this.onClick.bind(this, "skeletal")}/>
-            <FlatButton label="Wow" />
-            <FlatButton label="Explosion" />
+            <FlatButton label="Skeletal" onClick={this.sendVideo.bind(this, "skeletal")}/>
+            <FlatButton label="Wow" onClick={this.sendVideo.bind(this, "wow")} />
+            <FlatButton label="Shia" onClick={this.sendVideo.bind(this, "shia")}/>
+            <FlatButton label="That's It" onClick={this.sendVideo.bind(this, "thatsit")}/>
+            <FlatButton label="QuickScope" onClick={this.sendVideo.bind(this, "quickscope")}/>
+            <FlatButton label="Shake" onClick={this.sendShake.bind(this)}/>
             <TextField ref='sendMessageBox' fullWidth onEnterKeyDown={this.sendMessage}/>
           </Paper>
         )
