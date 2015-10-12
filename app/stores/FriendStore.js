@@ -2,6 +2,7 @@ import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import Config from '../libs/Config'
 import FriendActions from '../actions/FriendActions';
+import request from 'superagent';
 
 class FriendStore {
     constructor() {
@@ -22,71 +23,68 @@ class FriendStore {
         self.setState({me: me})
 
         // Get the info about the current user
-        $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/me',
-        }).done(function(result) {
-            if (result.success) {
+        request
+          .get(Config.apiBaseUrl + '/me')
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 let me = self.me;
-                me.id = result.user.id;
-                me.picture = result.user.picture;
-                me.name = result.user.name;
+                me.id = res.body.user.id;
+                me.picture = res.body.user.picture;
+                me.name = res.body.user.name;
                 self.setState({me: me})
-                console.log(self.me)
+            } else {
+                console.log(err);
             }
         });
 
-        // Pulls all the other friends
-	    $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/friends',
-        }).done(function(result) {
-            if (result.friends != null) {
-                self.setState({friends: result.friends})
+        request
+          .get(Config.apiBaseUrl + '/friends')
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+
+            if (!err && res.body.success) {
+                if (res.body.friends != null) {
+                    self.setState({friends: res.body.friends})
+                }
+            } else {
+                console.log(err);
             }
         });
-
     }
     add(id) {
         // Add a friend by ID
         let self = this;
-        $.ajax({
-            method: 'POST',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-                request.setRequestHeader("Content-Type", 'application/json');
-            },
-            url: Config.apiBaseUrl + '/friends',
-            data: JSON.stringify({id: parseInt(id)})
-        }).done(function(result) {
-            if (result.success) {
-        	    const friends = self.friends;
-        	    self.setState({
-        	        friends: friends.concat(result.friend)
-        	    });
+
+        const token = this.me.token
+        request
+          .post(Config.apiBaseUrl + '/friends')
+          .set('X-Session-Token', token)
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify({id: parseInt(id)}))
+          .end(function(err, res){
+            if (!err && res.body.success) {
+                const friends = self.friends;
+                self.setState({
+                    friends: friends.concat(res.body.friend)
+                });
+            } else {
+                console.log(err)
             }
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
         });
     }
     deleteFriend(id) {
         // Delete a friend by ID
         let self = this;
-        $.ajax({
-            method: 'DELETE',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-            },
-            url: Config.apiBaseUrl + '/friends/' + id,
-        }).done(function(result) {
-            if (result.success) {
+
+        const token = this.me.token
+        request
+          .del(Config.apiBaseUrl + '/friends/' + id)
+          .set('X-Session-Token', token)
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify({id: parseInt(id)}))
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 let friends = self.friends;
                 for (let i = 0; i < friends.length; i++) {
                     if (friends[i].id == id) {
@@ -97,10 +95,9 @@ class FriendStore {
                         break;
                     }
                 }
+            } else {
+                console.log(err)
             }
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
         });
     }
     getFriend(id) {

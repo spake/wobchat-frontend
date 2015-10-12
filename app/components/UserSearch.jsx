@@ -5,6 +5,7 @@ import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
 import Config from '../libs/Config';
 import User from './User.jsx'
+import request from 'superagent';
 let {List, ListItem, Paper} = mui;
 
 class UserSearch extends React.Component {
@@ -54,21 +55,22 @@ class UserSearch extends React.Component {
 
     searchUsers(props) {
         let self = this;
-        $.ajax({
-            method: 'GET',
-            beforeSend: function(request) {
-                request.setRequestHeader("X-Session-Token", FriendStore.getState().me.token);
-            },
-            url: Config.apiBaseUrl + '/users?q=' + props.search,
-        }).done(function(result) {
-            if (result.success) {
+
+        const token = FriendStore.getState().me.token;
+        request
+          .get(Config.apiBaseUrl + '/users?q=' + props.search)
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 if (!self.isUnmounted) {
-                    self.setState({ users: result.users});
+                    self.setState({ users: res.body.users});
                 }
+            } else {
+                console.log("Longpoll unsuccessful");
             }
+
         });
     }
-
 }
 
 UserSearch.defaultProps = {

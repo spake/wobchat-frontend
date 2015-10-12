@@ -4,6 +4,7 @@ import Config from '../libs/Config';
 import MessageActions from '../actions/MessageActions';
 import FriendStore from '../stores/FriendStore';
 import notify from '../libs/Notify';
+import request from 'superagent';
 let Notify = new notify;
 
 class MessageStore {
@@ -13,8 +14,9 @@ class MessageStore {
         this.add = this.add.bind(this);
         this.messages = {};
         this.mostRecentId = -1;
+        this.poll();
     }
-    add(msgEvent, userId) {
+    add(msgEvent) {
         console.log("Message receieved.");
         console.log("Adding message.");
 
@@ -23,9 +25,9 @@ class MessageStore {
         messages[msgEvent.message.senderId].push(msgEvent.message);
         self.setState({messages: messages});
         // Repoll
-        this.poll(msgEvent.message.senderId);
+        this.poll();
     }
-    poll(userId) {
+    poll() {
         let self = this;
         console.log("Sending Message longpoll.");
         let url = "";
@@ -34,42 +36,42 @@ class MessageStore {
         } else {
             url = Config.apiBaseUrl + "/nextMessage";
         }
-        $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                const token = FriendStore.getState().me.token
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: url,
-            timeout: 70000 // milliseconds
-        }).done(function(data) {
-            if (data.success == false) {
-                console.log("Longpoll unsuccessful.");
-                self.poll(userId);
-            } else {
-                self.add(data, userId);
-                const user = FriendStore.get(userId);
-                Notify.play(user.name);
-            }
-        }).fail(function(userId) {
-            console.log("Message Poll Failed.");
-            // TODO: Handle possible errors here.
-            self.poll(userId); }
-        );
+
+        const token = FriendStore.getState().me.token;
+        if (typeof token !== 'undefined') {
+            request
+              .get(url)
+              .set('X-Session-Token', token)
+              .timeout(70000)
+              .end(function(err, res){
+                if (!err && res.body.success) {
+                    self.add(res.body);
+                    const user = FriendStore.get(res.body.message.senderId);
+                    Notify.play(user.name)
+                } else {
+                    console.log("Longpoll unsuccessful");
+                    self.poll();
+                }
+
+            });
+        } else {
+            setTimeout(function(){
+                self.poll()
+            }, 100); 
+        }
+
     }
     loadMessages(userId) {
         let self = this;
-        $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                const token = FriendStore.getState().me.token
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/friends/' + userId + '/messages',
-        }).done(function(result) {
-            if (result.success) {
+
+        const token = FriendStore.getState().me.token
+        request
+          .get(Config.apiBaseUrl + '/friends/' + userId + '/messages')
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 let messages = self.messages;
-                let resMessages = result.messages;
+                let resMessages = res.body.messages;
                 resMessages.forEach(function(entry) {
                     if (entry.senderId != userId) {
                         entry.direction = "from";
@@ -81,37 +83,32 @@ class MessageStore {
                 self.setState({messages: messages})
                 // Update most recent msg ID
                 var newId = (messages[userId] == undefined) ? messages[userId][messages[userId].length - 1].id : -1;
-                if (newId > this.mostRecentId) {
+                if (newId > self.mostRecentId) {
                     self.mostRecentId = newId;
                     console.log("New mostRecentId: " + self.mostRecentId);
                 }
             } else {
-                console.log(result.error)
+                console.log(err)
             }
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
+
         });
     }
     load(userId) {
         this.loadMessages(userId);
         // Start longpoll.
-        this.poll(userId);
     }
     send(message) {
         var self = this;
-        $.ajax({
-            method: 'POST',
-            beforeSend: function (request) {
-                const token = FriendStore.getState().me.token
-                request.setRequestHeader("X-Session-Token", token);
-                request.setRequestHeader("Content-Type", 'application/json');
-            },
-            url: Config.apiBaseUrl + '/friends/' + message.recipientId + '/messages',
-            data: JSON.stringify(message)
-        }).done(function(result) {
-            if (result.success) {
-                message.id = result.id
+
+        const token = FriendStore.getState().me.token
+        request
+          .post(Config.apiBaseUrl + '/friends/' + message.recipientId + '/messages')
+          .set('X-Session-Token', token)
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify(message))
+          .end(function(err, res){
+            if (!err && res.body.success) {
+                message.id = res.body.id
                 // send a message to the given userId
                 let messages = self.messages;
                 let userMessages = [];
@@ -122,14 +119,12 @@ class MessageStore {
                 self.setState({
                     messages: messages
                 });
-            } else {
-                console.log(result.error)
-            }
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
-        });
 
+            } else {
+                console.log(err)
+            }
+
+        });
 
     }
 }
