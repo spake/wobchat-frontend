@@ -82,8 +82,7 @@ class MessageStore {
         });
     }
     load(userId) {
-        let self = this;
-        self.loadMessages(userId);
+        this.loadMessages(userId);
         // Start longpoll.
         this.poll(userId);
     }
