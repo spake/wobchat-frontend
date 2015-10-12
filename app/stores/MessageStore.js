@@ -80,7 +80,7 @@ class MessageStore {
                 messages[userId] = resMessages;
                 self.setState({messages: messages})
                 // Update most recent msg ID
-                var newId = messages[userId][messages[userId].length - 1].id;
+                var newId = (messages[userId] == undefined) ? messages[userId][messages[userId].length - 1].id : -1;
                 if (newId > this.mostRecentId) {
                     self.mostRecentId = newId;
                     console.log("New mostRecentId: " + self.mostRecentId);
