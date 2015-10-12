@@ -18,8 +18,8 @@ class User extends React.Component {
     handleMenuItemClicked(ev, item) {
         // Handle all menu item clicks for IconMenu here
         // item.props.children == text in menu item
-        if (item.props.children == "Add") {
-            FriendActions.add(this.props.user.id)
+        if (item.props.children == "Send Friend Request") {
+            FriendActions.requestFriend(this.props.user.id)
         }
     }
 

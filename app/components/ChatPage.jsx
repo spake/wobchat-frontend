@@ -67,11 +67,12 @@ class ChatPage extends React.Component {
         return (
             <div style={mainStyles}>
                 <div style={sidebarStyles}>
-                    <TextField hintText="Add friends..." style={addBoxStyle} value={this.state.search}
+                    <TextField hintText="Search users..." style={addBoxStyle} value={this.state.search}
                        onChange={this.handleTextChange}  />
                     {this.state.search.length > 0 ?
                     <UserSearch search={this.state.search} />
                     : 
+                    // open pending friend requests
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {
@@ -81,7 +82,7 @@ class ChatPage extends React.Component {
                     </AltContainer>
                     }
                 </div>
-                {self.state.currentChatUser != -1 ? <div style={messagesStyles}>
+                {self.state.currentChatUser != -1 ? <div style={messagesStyles}>    
                   <AltContainer
                     stores={[MessageStore]}
                     inject={ { 

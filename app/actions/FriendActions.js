@@ -1,3 +1,3 @@
 import alt from '../libs/alt';
 
-export default alt.generateActions('add', 'deleteFriend');
+export default alt.generateActions('add', 'requestFriend', 'deleteFriend', 'declineRequest');

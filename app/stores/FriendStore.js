@@ -55,26 +55,39 @@ class FriendStore {
     }
     add(id) {
         // Add a friend by ID
+        const friends = this.friends;
+        self.setState({
+            friends: friends.concat(result.friend)
+        });
+    }
+    requestFriend(id) {
         let self = this;
         $.ajax({
-            method: 'POST',
+            method: 'PUT',
             beforeSend: function (request) {
                 request.setRequestHeader("X-Session-Token", self.me.token);
                 request.setRequestHeader("Content-Type", 'application/json');
             },
-            url: Config.apiBaseUrl + '/friends',
-            data: JSON.stringify({id: parseInt(id)})
-        }).done(function(result) {
-            if (result.success) {
-        	    const friends = self.friends;
-        	    self.setState({
-        	        friends: friends.concat(result.friend)
-        	    });
-            }
-        }).fail(function (jqXHR, textStatus) {
+            url: Config.apiBaseUrl + '/friendrequests/' + idm
+        }).fail(function(jqXHR, textStatus) {
             console.log(jqXHR);
             console.log(textStatus);
         });
+    }
+    declineRequest(id) {
+        let self = this;
+        $.ajax({
+            method: 'DELETE',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", self.me.token);
+                request.setRequestHeader("Content-Type", 'application/json');
+            },
+            url: Config.apiBaseUrl + '/friendrequests/' + idm
+        }).fail(function(jqXHR, textStatus) {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
+
     }
     deleteFriend(id) {
         // Delete a friend by ID
