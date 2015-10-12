@@ -2,26 +2,21 @@ import React from 'react';
 import mui from 'material-ui';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
-import Config from './Config.jsx';
+import Config from '../libs/Config.js';
 let {ListDivider, Avatar} = mui;
 let Colors = mui.Styles.Colors;
 
 class Message extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            videoPlayed: false
-        }
-    }
-    onEnded(e) {
-        console.log("ENDED");
     }
     componentDidMount() {
         if ("video" in this.refs) {
             let node = React.findDOMNode(this.refs.video);
             node.onended = function() {
-                this.remove();
+                this.pause();
+                this.src =""; // empty source
+                this.load();
             }
         }
     }
@@ -56,7 +51,7 @@ class Message extends React.Component {
                 content = "You sent a video: " + this.props.message.content;
             } else {
                 content = "You received a video: " + this.props.message.content;
-                console.log(Date.now() - Date.parse(this.props.message.timestamp))
+                // Recieved in the last 50000ms ensures that only wibs send very recently will get played.
                 if(Date.now() - Date.parse(this.props.message.timestamp)  <= 38000) {
                     // Set the video
                     media = (
@@ -71,7 +66,7 @@ class Message extends React.Component {
                 content = "You sent a wobble.";
             } else {
                 content = "You were wobbled!";
-                console.log(Date.now() - Date.parse(this.props.message.timestamp))
+                // Recieved in the last 50000ms ensures that only wibs send very recently will get played.
                 if(Date.now() - Date.parse(this.props.message.timestamp)  <= 38000) {
                     $('body').trigger('startRumble');
                     setTimeout(function(){$('body').trigger('stopRumble')}, 1500)

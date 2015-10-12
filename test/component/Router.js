@@ -14,7 +14,7 @@ describe('Router', function(){
   });
 
   it('should render a Header', function() {
-    assert(this.component.props.children[1].type == Header);
+    assert(this.component.props.children[0].type == Header);
   });
 
 });
