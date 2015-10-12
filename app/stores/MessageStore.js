@@ -3,13 +3,15 @@ import alt from '../libs/alt';
 import Config from '../libs/Config';
 import MessageActions from '../actions/MessageActions';
 import FriendStore from '../stores/FriendStore';
+import notify from '../libs/Notify';
+let Notify = new notify;
 
 class MessageStore {
     constructor() {
-	    this.bindActions(MessageActions);
+        this.bindActions(MessageActions);
         // Bind non-action functions
         this.add = this.add.bind(this);
-	    this.messages = {};
+        this.messages = {};
         this.mostRecentId = -1;
     }
     add(msgEvent, userId) {
@@ -46,6 +48,8 @@ class MessageStore {
                 self.poll(userId);
             } else {
                 self.add(data, userId);
+                const user = FriendStore.get(userId);
+                Notify.play(user.name);
             }
         }).fail(function(userId) {
             console.log("Message Poll Failed.");
