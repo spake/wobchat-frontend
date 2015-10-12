@@ -13,8 +13,9 @@ class MessageStore {
         this.add = this.add.bind(this);
         this.messages = {};
         this.mostRecentId = -1;
+        this.poll();
     }
-    add(msgEvent, userId) {
+    add(msgEvent) {
         console.log("Message receieved.");
         console.log("Adding message.");
 
@@ -25,7 +26,7 @@ class MessageStore {
         // Repoll
         this.poll(msgEvent.message.senderId);
     }
-    poll(userId) {
+    poll() {
         let self = this;
         console.log("Sending Message longpoll.");
         let url = "";
@@ -45,9 +46,9 @@ class MessageStore {
         }).done(function(data) {
             if (data.success == false) {
                 console.log("Longpoll unsuccessful.");
-                self.poll(userId);
+                self.poll();
             } else {
-                self.add(data, userId);
+                self.add(data);
                 const user = FriendStore.get(userId);
                 Notify.play(user.name);
             }
@@ -95,8 +96,6 @@ class MessageStore {
     }
     load(userId) {
         this.loadMessages(userId);
-        // Start longpoll.
-        this.poll(userId);
     }
     send(message) {
         var self = this;
