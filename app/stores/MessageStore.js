@@ -69,7 +69,15 @@ class MessageStore {
         }).done(function(result) {
             if (result.success) {
                 let messages = self.messages;
-                messages[userId] = result.messages;
+                let resMessages = result.messages;
+                resMessages.forEach(function(entry) {
+                    if (entry.senderId != userId) {
+                        entry.direction = "from";
+                    } else {
+                        entry.direction = "to";
+                    }
+                });
+                messages[userId] = resMessages;
                 self.setState({messages: messages})
                 // Update most recent msg ID
                 var newId = messages[userId][messages[userId].length - 1].id;
@@ -100,7 +108,7 @@ class MessageStore {
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friends/' + message.recipientId + '/messages',
-            data: JSON.stringify({content: message.content, contentType: 1})
+            data: JSON.stringify(message)
         }).done(function(result) {
             if (result.success) {
                 message.id = result.id
@@ -114,6 +122,8 @@ class MessageStore {
                 self.setState({
                     messages: messages
                 });
+            } else {
+                console.log(result.error)
             }
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR);
