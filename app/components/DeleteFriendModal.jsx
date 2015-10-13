@@ -6,12 +6,16 @@ class DeleteFriendModal extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            user: {}
+        }
         this.deleteFriend = this.deleteFriend.bind(this);
         this.cancelDelete= this.cancelDelete.bind(this);
+        this.show = this.show.bind(this);
     }
 
     deleteFriend() {
-        let user = this.props.user;
+        let user = this.state.user;
         this.refs.dialog.dismiss();
         FriendActions.deleteFriend(user.id);
     }
@@ -20,7 +24,8 @@ class DeleteFriendModal extends React.Component {
         this.refs.dialog.dismiss();
     }
 
-    show() {
+    show(user) {
+        this.setState({user: user})
         this.refs.dialog.show()
     }
 
@@ -34,23 +39,16 @@ class DeleteFriendModal extends React.Component {
         return (
             <Dialog
                 ref="dialog"
-                title={"Remove " + user.name + " from Friends List"}
+                title={"Remove " + this.state.user.name + " from Friends List"}
                 actions={standardActions}
                 actionFocus="cancelDelete"
                 modal={true}>
-                Are you sure you want to remove {user.name} from your friends list?
+                Are you sure you want to remove {this.state.user.name} from your friends list?
             </Dialog>
         );
     }
 }
 
-DeleteFriendModal.defaultProps = {
-    user: {
-        name: "John Wiseheart",
-        id: 1,
-        picture: ''
-    }
-}
 
 module.exports = DeleteFriendModal;
 

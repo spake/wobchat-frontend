@@ -1,6 +1,5 @@
 import React from 'react';
 import mui from 'material-ui';
-import Friend from './Friend.jsx';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
 import Config from '../libs/Config';
@@ -32,10 +31,17 @@ class UserSearch extends React.Component {
     }
 
     renderUser(user) {
+        let actions = [
+            {
+                name: 'Send Friend Request',
+                doAction: FriendActions.requestFriend(user.id)
+            }
+        ]
         return (
             <User
                 key={user.id}
                 user={user}
+                actions={actions}
             />
         );
     }

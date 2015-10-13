@@ -53,14 +53,8 @@ class FriendStore {
         });
 
     }
-    add(id) {
+    acceptRequest(id) {
         // Add a friend by ID
-        const friends = this.friends;
-        self.setState({
-            friends: friends.concat(result.friend)
-        });
-    }
-    requestFriend(id) {
         let self = this;
         $.ajax({
             method: 'PUT',
@@ -68,7 +62,28 @@ class FriendStore {
                 request.setRequestHeader("X-Session-Token", self.me.token);
                 request.setRequestHeader("Content-Type", 'application/json');
             },
-            url: Config.apiBaseUrl + '/friendrequests/' + idm
+            url: Config.apiBaseUrl + '/friendrequests/' + id
+        }).done(function(result) {
+            if (result.success) {
+                const friends = this.friends;
+                self.setState({
+                    friends: friends.concat(result.friend)
+                });
+            }
+        }).fail(function(result) {
+            console.log(jqXHR)
+            console.log(textStatus)
+        });
+    }
+    requestFriend(id) {
+        let self = this;
+        $.ajax({
+            method: 'POST',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", self.me.token);
+                request.setRequestHeader("Content-Type", 'application/json');
+            },
+            url: Config.apiBaseUrl + '/users/' + id + '/friendrequests'
         }).fail(function(jqXHR, textStatus) {
             console.log(jqXHR);
             console.log(textStatus);
@@ -82,7 +97,7 @@ class FriendStore {
                 request.setRequestHeader("X-Session-Token", self.me.token);
                 request.setRequestHeader("Content-Type", 'application/json');
             },
-            url: Config.apiBaseUrl + '/friendrequests/' + idm
+            url: Config.apiBaseUrl + '/friendrequests/' + id
         }).fail(function(jqXHR, textStatus) {
             console.log(jqXHR);
             console.log(textStatus);

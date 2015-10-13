@@ -72,7 +72,6 @@ class ChatPage extends React.Component {
                     {this.state.search.length > 0 ?
                     <UserSearch search={this.state.search} />
                     : 
-                    // open pending friend requests
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {
