@@ -33,13 +33,16 @@ class User extends React.Component {
             <IconButton>
                 <MoreVertIcon />
             </IconButton>;
-        let buttonActions = null
+        let buttonActions = []
         for (let i = 0; i < this.props.actions.length; i++) {
-            buttonActions += <MenuItem index={i}>{this.props.actions[i].name}</MenuItem>
+            buttonActions.push(<MenuItem index={i}>{this.props.actions[i].name}</MenuItem>)
         }
         let rightIconButton = 
-            <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
-               {buttonActions} 
+            <IconMenu openDirection="bottom-right" iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
+               {buttonActions.map(function(action) {
+                        return action
+                    })
+               }
             </IconMenu>;
 
         return (

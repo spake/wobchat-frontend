@@ -33,7 +33,7 @@ class UserSearch extends React.Component {
     renderUser(user) {
         let actions = [
             {
-                name: 'Send Friend Request',
+                name: 'Add',
                 doAction: FriendActions.requestFriend(user.id)
             }
         ]
