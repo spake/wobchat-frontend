@@ -28,9 +28,4 @@ describe('User', function(){
     assert(this.component.props.rightIconButton.type == IconMenu);
   });
 
-  it('should have that IconMenu with a MenuItem inside it', function() {
-    assert(this.component.props.rightIconButton.props.children.type == MenuItem);
-  });
-
-
 });
