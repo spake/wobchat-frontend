@@ -18,22 +18,31 @@ class User extends React.Component {
     handleMenuItemClicked(ev, item) {
         // Handle all menu item clicks for IconMenu here
         // item.props.children == text in menu item
-        if (item.props.children == "Add") {
-            FriendActions.add(this.props.user.id)
+        for (let i = 0; i < this.props.actions.length; i++) {
+            if (item.props.children == this.props.actions[i].name) {
+                this.props.actions[i].doAction();
+                break;
+            }
         }
     }
 
     render() {
         let user = this.props.user;
-
         // Make IconMenu for adding friends, and perhaps other features
         let iconButton = 
             <IconButton>
                 <MoreVertIcon />
             </IconButton>;
+        let buttonActions = []
+        for (let i = 0; i < this.props.actions.length; i++) {
+            buttonActions.push(<MenuItem key={i} index={i}>{this.props.actions[i].name}</MenuItem>)
+        }
         let rightIconButton = 
             <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
-                <MenuItem index={0}>Add</MenuItem>
+               {buttonActions.map(function(action) {
+                        return action
+                    })
+               }
             </IconMenu>;
 
         return (
@@ -41,10 +50,11 @@ class User extends React.Component {
                 key={user.uid}
                 leftAvatar={<Avatar src={user.picture} />}
                 primaryText={user.name}
+                onClick={this.props.onClick}
                 rightIconButton={rightIconButton}
             />
-    );
-  }
+        );
+    }
 }
 
 User.defaultProps = {
@@ -53,7 +63,13 @@ User.defaultProps = {
         id: 1,
         picture: ''
     },
-    onClick: function() {}
+    onClick: function() {},
+    actions: [
+        {
+            name: '',
+            doAction: function () {}
+        }
+    ]
 }
 
 module.exports = User;

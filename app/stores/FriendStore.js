@@ -9,12 +9,15 @@ class FriendStore {
 	    this.bindActions(FriendActions);
 	    this.friends = [];
         this.me = {};
+        this.friendRequests = [];
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
             pullInfo: this.pullInfo.bind(this),
         });
 
         this.pullInfo = this.pullInfo.bind(this);
+        this.checkRequests = this.checkRequests.bind(this);
+        this.pullRequests = this.pullRequests.bind(this);
     }
     pullInfo(token) {
     	let self = this;
@@ -51,25 +54,84 @@ class FriendStore {
                 console.log(err);
             }
         });
+        // Pull friend requests
+        this.checkRequests(token);
     }
-    add(id) {
-        // Add a friend by ID
+    pullRequests(token) {
         let self = this;
-
-        const token = this.me.token
         request
-          .post(Config.apiBaseUrl + '/friends')
+          .get(Config.apiBaseUrl + '/friendrequests')
           .set('X-Session-Token', token)
-          .set('Content-Type', 'application/json')
-          .send(JSON.stringify({id: parseInt(id)}))
-          .end(function(err, res){
+          .end(function(err, res) {
             if (!err && res.body.success) {
-                const friends = self.friends;
-                self.setState({
-                    friends: friends.concat(res.body.friend)
-                });
+              self.setState({ friendRequests: res.body.requestors})
             } else {
-                console.log(err)
+              console.log(err)
+            }
+        })
+    }
+    checkRequests(token) {
+        this.pullRequests(token)
+        setInterval(this.pullRequests.bind(this, token), 5000)
+    }
+    acceptRequest(id) {
+        // Add given friend (from id) to user
+        let self = this;
+        request
+          .put(Config.apiBaseUrl + '/friendrequests/' + id)
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (res.body.success) {
+                // Remove user from friendRequests and add to friends
+                const friends = self.friends;
+                const requests = self.friendRequests;
+                for (let i = 0; i < requests.length; i++) {
+                    if (requests[i].id == id) {
+                        if (friends == null) {
+                            self.setState({ friends: requests[i] })
+                        } else {
+                            self.setState({ friends: friends.concat(requests[i])})
+                        }
+                        requests.splice(i, 1)
+                        self.setState({
+                            friendRequests: requests
+                        });
+                        break;
+                    }
+                }
+            }
+
+          });
+    }
+    requestFriend(id) {
+        let self = this;
+        request
+          .post(Config.apiBaseUrl + '/users/' + id + '/friendrequests')
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (!res.body.success) {
+              console.log(err)
+            }
+          })
+    }
+    declineRequest(id) {
+        let self = this;
+        request
+          .del(Config.apiBaseUrl + '/friendrequests/' + id)
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (res.body.success) {
+                // Remove from friendRequests
+                const requests = self.friendRequests;
+                for (let i = 0; i < requests.length; i++) {
+                    if (requests[i].id == id) {
+                        requests.splice(i, 1)
+                        self.setState({friendRequests: requests});
+                        break;
+                    }
+                }
+            } else {
+              console.log(err)
             }
         });
     }
