@@ -35,7 +35,7 @@ class User extends React.Component {
             </IconButton>;
         let buttonActions = []
         for (let i = 0; i < this.props.actions.length; i++) {
-            buttonActions.push(<MenuItem index={i}>{this.props.actions[i].name}</MenuItem>)
+            buttonActions.push(<MenuItem key={i} index={i}>{this.props.actions[i].name}</MenuItem>)
         }
         let rightIconButton = 
             <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>

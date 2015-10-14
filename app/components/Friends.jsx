@@ -65,24 +65,18 @@ class Friends extends React.Component {
         }
     ]
     return (
-        <div>
             <User
               key={friend.id}
               user={friend}
               onClick={this.props.onClick.bind(null, friend.id)}
               actions={actions}
             />
-        </div>
     );
   }
 
   showModal(user) {
     this.refs.modal.show(user)
   }
-
-  componentDidMount() {
-  }
-
 }
 
 
