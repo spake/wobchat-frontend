@@ -1,3 +1,3 @@
 import alt from '../libs/alt';
 
-export default alt.generateActions('load', 'send');
+export default alt.generateActions('load', 'send', 'poll');

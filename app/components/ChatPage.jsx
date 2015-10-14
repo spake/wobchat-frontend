@@ -27,6 +27,10 @@ class ChatPage extends React.Component {
             search: ""
         };
 
+        document.addEventListener('DOMContentLoaded', function () {
+          if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        });
         this.openFriend = this.openFriend.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
     }

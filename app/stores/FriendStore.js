@@ -2,6 +2,7 @@ import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import Config from '../libs/Config'
 import FriendActions from '../actions/FriendActions';
+import request from 'superagent';
 
 class FriendStore {
     constructor() {
@@ -25,53 +26,49 @@ class FriendStore {
         self.setState({me: me})
 
         // Get the info about the current user
-        $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/me',
-        }).done(function(result) {
-            if (result.success) {
+        request
+          .get(Config.apiBaseUrl + '/me')
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 let me = self.me;
-                me.id = result.user.id;
-                me.picture = result.user.picture;
-                me.name = result.user.name;
+                me.id = res.body.user.id;
+                me.picture = res.body.user.picture;
+                me.name = res.body.user.name;
                 self.setState({me: me})
-                console.log(self.me)
+            } else {
+                console.log(err);
             }
         });
 
-        // Pulls all the other friends
-	    $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/friends',
-        }).done(function(result) {
-            if (result.friends != null) {
-                self.setState({friends: result.friends})
+        request
+          .get(Config.apiBaseUrl + '/friends')
+          .set('X-Session-Token', token)
+          .end(function(err, res){
+
+            if (!err && res.body.success) {
+                if (res.body.friends != null) {
+                    self.setState({friends: res.body.friends})
+                }
+            } else {
+                console.log(err);
             }
         });
-
         // Pull friend requests
         this.checkRequests(token);
-
     }
     pullRequests(token) {
         let self = this;
-        $.ajax({
-            method: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", token);
-            },
-            url: Config.apiBaseUrl + '/friendrequests'
-        }).done(function (result) {
-            if (result.success) {
-                self.setState({friendRequests: result.requestors});
+        request
+          .get(Config.apiBaseUrl + '/friendrequests')
+          .set('X-Session-Token', token)
+          .end(function(err, res) {
+            if (!err && res.body.success) {
+              self.setState({ friendRequests: res.body.requestors})
+            } else {
+              console.log(err)
             }
-        });
+        })
     }
     checkRequests(token) {
         this.pullRequests(token)
@@ -80,15 +77,11 @@ class FriendStore {
     acceptRequest(id) {
         // Add given friend (from id) to user
         let self = this;
-        $.ajax({
-            method: 'PUT',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-                request.setRequestHeader("Content-Type", 'application/json');
-            },
-            url: Config.apiBaseUrl + '/friendrequests/' + id
-        }).done(function(result) {
-            if (result.success) {
+        request
+          .put(Config.apiBaseUrl + '/friendrequests/' + id)
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (res.body.success) {
                 // Remove user from friendRequests and add to friends
                 const friends = self.friends;
                 const requests = self.friendRequests;
@@ -107,65 +100,53 @@ class FriendStore {
                     }
                 }
             }
-        }).fail(function(result) {
-            console.log(jqXHR)
-            console.log(textStatus)
-        });
+
+          });
     }
     requestFriend(id) {
         let self = this;
-        $.ajax({
-            method: 'POST',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-                request.setRequestHeader("Content-Type", 'application/json');
-            },
-            url: Config.apiBaseUrl + '/users/' + id + '/friendrequests'
-        }).fail(function(jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
-        });
+        request
+          .post(Config.apiBaseUrl + '/users/' + id + '/friendrequests')
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (!res.body.success) {
+              console.log(err)
+            }
+          })
     }
     declineRequest(id) {
         let self = this;
-        $.ajax({
-            method: 'DELETE',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-                request.setRequestHeader("Content-Type", 'application/json');
-            },
-            url: Config.apiBaseUrl + '/friendrequests/' + id
-        }).done(function(result) {
-            if (result.success) {
+        request
+          .del(Config.apiBaseUrl + '/friendrequests/' + id)
+          .set('X-Session-Token', self.me.token)
+          .end(function(err, res) {
+            if (res.body.success) {
                 // Remove from friendRequests
                 const requests = self.friendRequests;
                 for (let i = 0; i < requests.length; i++) {
                     if (requests[i].id == id) {
                         requests.splice(i, 1)
-                        self.setState({
-                            friendRequests: requests
-                        });
+                        self.setState({friendRequests: requests});
                         break;
                     }
                 }
+            } else {
+              console.log(err)
             }
-        }).fail(function(jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
         });
-
     }
     deleteFriend(id) {
         // Delete a friend by ID
         let self = this;
-        $.ajax({
-            method: 'DELETE',
-            beforeSend: function (request) {
-                request.setRequestHeader("X-Session-Token", self.me.token);
-            },
-            url: Config.apiBaseUrl + '/friends/' + id,
-        }).done(function(result) {
-            if (result.success) {
+
+        const token = this.me.token
+        request
+          .del(Config.apiBaseUrl + '/friends/' + id)
+          .set('X-Session-Token', token)
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify({id: parseInt(id)}))
+          .end(function(err, res){
+            if (!err && res.body.success) {
                 let friends = self.friends;
                 for (let i = 0; i < friends.length; i++) {
                     if (friends[i].id == id) {
@@ -176,10 +157,9 @@ class FriendStore {
                         break;
                     }
                 }
+            } else {
+                console.log(err)
             }
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR);
-            console.log(textStatus);
         });
     }
     getFriend(id) {

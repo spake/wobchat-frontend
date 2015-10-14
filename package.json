@@ -14,22 +14,23 @@
     "gulp-open": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-watch": "^4.3.5",
+    "jquery": "^2.1.4",
     "jsdom": "^3.1.2",
     "jsdom-no-contextify": "^3.1.0",
     "material-ui": "^0.11.0",
     "mocha": "^2.3.2",
     "mocha-bamboo-reporter": "^1.1.0",
     "node-uuid": "^1.4.3",
-    "react": "^0.13.2",
+    "react": "^0.13.3",
     "react-mini-router": "^1.1.7",
     "react-tap-event-plugin": "^0.1.7",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
-    "superagent": "^1.2.0"
+    "superagent": "^1.4.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register --recursive",
-    "bamboo": "mocha -R mocha-bamboo-reporter --compilers js:babel/register --recursive"
+    "test": "mocha -r mock-local-storage --compilers js:babel/register --recursive",
+    "bamboo": "mocha -R mocha-bamboo-reporter -r mock-local-storage --compilers js:babel/register --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -44,5 +45,8 @@
     "unmockedModulePathPatterns": [
       "node_modules/react"
     ]
+  },
+  "devDependencies": {
+    "mock-local-storage": "^1.0.2"
   }
 }
