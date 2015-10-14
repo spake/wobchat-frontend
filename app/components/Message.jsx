@@ -33,6 +33,7 @@ class Message extends React.Component {
             display: 'flex',
             alignItems: 'center',
             width: '100%',
+            wordBreak: 'break-all',
         }
         let vidStyle={
             position: 'absolute',
