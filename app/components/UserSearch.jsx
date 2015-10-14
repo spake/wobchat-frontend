@@ -19,10 +19,18 @@ class UserSearch extends React.Component {
     }
 
     render() {
+        let friendsStyles = {
+            // Viewport height - Header height - TextField height - 'Search Results' text
+            // - some magic number that makes the browser scroll not overflow
+            height: 'calc(100vh - 64px - 48px - 48px - 8px)',
+            overflow: 'auto',
+            overflowX: 'hidden',
+        }
+
         return (
             <List subheader="Search Results">
             {this.state.users != null ?
-                <Paper zDepth={0} >
+                <Paper style={friendsStyles} zDepth={0} >
                     {this.state.users.map(this.renderUser)}
                 </Paper>
             :
