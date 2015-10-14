@@ -75,10 +75,10 @@ class FriendStore {
     }
     checkRequests(token) {
         this.pullRequests(token)
-        setInterval(this.pullRequests.bind(this, token), 10000)
+        setInterval(this.pullRequests.bind(this, token), 5000)
     }
     acceptRequest(id) {
-        // Add a friend by ID
+        // Add given friend (from id) to user
         let self = this;
         $.ajax({
             method: 'PUT',
@@ -89,13 +89,22 @@ class FriendStore {
             url: Config.apiBaseUrl + '/friendrequests/' + id
         }).done(function(result) {
             if (result.success) {
-                const friends = this.friends;
-                if (friends == null) {
-                    self.setState({ friends: result.friend });
-                } else {
-                    self.setState({
-                        friends: friends.concat(result.friend)
-                    });
+                // Remove user from friendRequests and add to friends
+                const friends = self.friends;
+                const requests = self.friendRequests;
+                for (let i = 0; i < requests.length; i++) {
+                    if (requests[i].id == id) {
+                        if (friends == null) {
+                            self.setState({ friends: requests[i] })
+                        } else {
+                            self.setState({ friends: friends.concat(requests[i])})
+                        }
+                        requests.splice(i, 1)
+                        self.setState({
+                            friendRequests: requests
+                        });
+                        break;
+                    }
                 }
             }
         }).fail(function(result) {
@@ -126,6 +135,20 @@ class FriendStore {
                 request.setRequestHeader("Content-Type", 'application/json');
             },
             url: Config.apiBaseUrl + '/friendrequests/' + id
+        }).done(function(result) {
+            if (result.success) {
+                // Remove from friendRequests
+                const requests = self.friendRequests;
+                for (let i = 0; i < requests.length; i++) {
+                    if (requests[i].id == id) {
+                        requests.splice(i, 1)
+                        self.setState({
+                            friendRequests: requests
+                        });
+                        break;
+                    }
+                }
+            }
         }).fail(function(jqXHR, textStatus) {
             console.log(jqXHR);
             console.log(textStatus);

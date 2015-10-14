@@ -38,7 +38,7 @@ class User extends React.Component {
             buttonActions.push(<MenuItem index={i}>{this.props.actions[i].name}</MenuItem>)
         }
         let rightIconButton = 
-            <IconMenu openDirection="bottom-right" iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
+            <IconMenu iconButtonElement={iconButton} onItemTouchTap={this.handleMenuItemClicked}>
                {buttonActions.map(function(action) {
                         return action
                     })
