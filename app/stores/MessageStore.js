@@ -109,6 +109,12 @@ class MessageStore {
           .end(function(err, res){
             if (!err && res.body.success) {
                 message.id = res.body.id
+                if (message.senderId == FriendStore.getState().me.id) {
+                    message.direction = "from";
+                } else {
+                    message.direction = "to";
+                }
+
                 // send a message to the given userId
                 let messages = self.messages;
                 let userMessages = [];
