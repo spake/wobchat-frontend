@@ -90,9 +90,13 @@ class FriendStore {
         }).done(function(result) {
             if (result.success) {
                 const friends = this.friends;
-                self.setState({
-                    friends: friends.concat(result.friend)
-                });
+                if (friends == null) {
+                    self.setState({ friends: result.friend });
+                } else {
+                    self.setState({
+                        friends: friends.concat(result.friend)
+                    });
+                }
             }
         }).fail(function(result) {
             console.log(jqXHR)
