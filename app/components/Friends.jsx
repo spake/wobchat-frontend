@@ -9,23 +9,20 @@ import {List, Paper} from 'material-ui';
 class Friends extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-        friendRequests: []
-    };
-    this.renderFriend = this.renderFriend.bind(this);
     this.renderRequest = this.renderRequest.bind(this);
-    this.getFriendRequests = this.getFriendRequests.bind(this);
+    this.renderFriend = this.renderFriend.bind(this);
     this.showModal = this.showModal.bind(this);
   }
   render() {
     const friends = this.props.items;
+    const requests = this.props.requests;
     return (
       <div>
           <DeleteFriendModal ref="modal" />
-          {this.state.friendRequests.length > 0 ?
+          {requests != null && requests.length > 0 ?
             <List subheader="Pending Friend Requests">
               <Paper zDepth={0} >
-                {this.state.friendRequests.map(this.renderRequest)}  
+                {requests.map(this.renderRequest)}  
               </Paper>
             </List>
           : null
@@ -64,7 +61,7 @@ class Friends extends React.Component {
     let actions = [
         {
             name: 'Remove',
-            doAction: this.refs.modal.show.bind(null, friend)
+            doAction: this.showModal.bind(null, friend)
         }
     ]
     return (
@@ -80,25 +77,10 @@ class Friends extends React.Component {
   }
 
   showModal(user) {
-    this.refs.modal.show()
+    this.refs.modal.show(user)
   }
 
   componentDidMount() {
-    this.getFriendRequests();
-  }
-
-  getFriendRequests() {
-    $.ajax({
-      method: 'GET',
-      beforeSend: function (request) {
-        request.setRequestHeader("X-Session-Token", FriendStore.getState().me.token);
-      },
-      url: Config.apiBaseUrl + '/friendrequests'
-    }).done(function(result) {
-      if (result.success) {
-        self.setState({friendRequests: result.requestors});
-      }
-    });
   }
 
 }

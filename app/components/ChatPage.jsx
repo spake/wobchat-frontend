@@ -75,7 +75,8 @@ class ChatPage extends React.Component {
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {
-                            items: () => FriendStore.getState().friends
+                            items: () => FriendStore.getState().friends,
+                            requests: () => FriendStore.getState().friendRequests
                         } }>
                         <Friends onClick={this.openFriend} />
                     </AltContainer>

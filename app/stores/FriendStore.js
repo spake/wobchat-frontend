@@ -8,12 +8,15 @@ class FriendStore {
 	    this.bindActions(FriendActions);
 	    this.friends = [];
         this.me = {};
+        this.friendRequests = [];
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
             pullInfo: this.pullInfo.bind(this),
         });
 
         this.pullInfo = this.pullInfo.bind(this);
+        this.checkRequests = this.checkRequests.bind(this);
+        this.pullRequests = this.pullRequests.bind(this);
     }
     pullInfo(token) {
     	let self = this;
@@ -52,6 +55,27 @@ class FriendStore {
             }
         });
 
+        // Pull friend requests
+        this.checkRequests(token);
+
+    }
+    pullRequests(token) {
+        let self = this;
+        $.ajax({
+            method: 'GET',
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Session-Token", token);
+            },
+            url: Config.apiBaseUrl + '/friendrequests'
+        }).done(function (result) {
+            if (result.success) {
+                self.setState({friendRequests: result.requestors});
+            }
+        });
+    }
+    checkRequests(token) {
+        this.pullRequests(token)
+        setInterval(this.pullRequests.bind(this, token), 10000)
     }
     acceptRequest(id) {
         // Add a friend by ID
