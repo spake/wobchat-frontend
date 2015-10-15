@@ -10,17 +10,9 @@ class Friends extends React.Component {
   render() {
     const friends = this.props.items;
 
-    let friendsStyles = {
-        // Viewport height - Header height - TextField height - 'Friends' text height
-        // - some magic number that makes the browser scroll not overflow
-        height: 'calc(100vh - 64px - 48px - 48px - 8px)',
-        overflow: 'auto',
-        overflowX: 'hidden',
-    }
-
     return (
       <List subheader="Friends">
-        <Paper style={friendsStyles} zDepth={0} >
+        <Paper zDepth={0} >
             {friends.map(this.renderFriend)}
         </Paper>
       </List>
