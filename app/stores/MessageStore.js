@@ -117,7 +117,7 @@ class MessageStore {
                     message.direction = "to";
                 }
                 message.shouldPlayWib = true;
-
+                message.timestamp = Date.now();
                 // send a message to the given userId
                 let messages = self.messages;
                 let userMessages = [];
