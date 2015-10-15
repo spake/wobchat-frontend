@@ -24,6 +24,7 @@
     "react": "^0.13.3",
     "react-mini-router": "^1.1.7",
     "react-tap-event-plugin": "^0.1.7",
+    "react-timeago": "^2.2.1",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "superagent": "^1.4.0"

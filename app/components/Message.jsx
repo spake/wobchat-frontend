@@ -3,6 +3,7 @@ import mui from 'material-ui';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
 import Config from '../libs/Config.js';
+import TimeAgo from 'react-timeago';
 let {ListDivider, Avatar} = mui;
 let Colors = mui.Styles.Colors;
 
@@ -11,6 +12,7 @@ class Message extends React.Component {
         super(props);
     }
     componentDidMount() {
+        console.log("message mounted")
         if ("video" in this.refs) {
             let node = React.findDOMNode(this.refs.video);
             node.onended = function() {
@@ -27,13 +29,16 @@ class Message extends React.Component {
             backgroundColor: this.props.message.direction=="from" ? Colors.purple50 : null,
         }
 
+        var avatarStyle = {
+            flex: 'initial'
+        }
         var textStyle = {
             paddingLeft: "10px",
             fontFamily: 'Roboto, sans-serif',
             display: 'flex',
             alignItems: 'center',
-            width: '100%',
             wordBreak: 'break-all',
+            flex: 1
         }
         let vidStyle={
             position: 'absolute',
@@ -43,6 +48,12 @@ class Message extends React.Component {
             zIndex: 20000,
             pointerEvents: 'none'
         }
+        
+        let timeStyle={
+            fontSize: '0.7em',
+            color: '#aaa'
+        } 
+
         let friend = FriendStore.get(this.props.message.senderId);
         let content = this.props.message.content;
         let media = null;
@@ -52,14 +63,13 @@ class Message extends React.Component {
                 content = "You sent a video: " + this.props.message.content;
             } else {
                 content = "You received a video: " + this.props.message.content;
-                // Recieved in the last 50000ms ensures that only wibs send very recently will get played.
-                if(Date.now() - Date.parse(this.props.message.timestamp)  <= 38000) {
-                    // Set the video
-                    media = (
-                        <video style={vidStyle} ref="video" autoPlay ended="alert('ended')">
-                            <source src={"resources/" + this.props.message.content + ".webm"} type="video/webm" />
-                        </video>);
-                }
+            }
+            if(this.props.message.shouldPlayWib) {
+                // Set the video
+                media = (
+                    <video style={vidStyle} ref="video" autoPlay ended="alert('ended')">
+                        <source src={"resources/" + this.props.message.content + ".webm"} type="video/webm" />
+                    </video>);
             }
         } else if (this.props.message.contentType == 3) {
             // Set the visible message
@@ -67,21 +77,22 @@ class Message extends React.Component {
                 content = "You sent a wobble.";
             } else {
                 content = "You were wobbled!";
-                // Recieved in the last 50000ms ensures that only wibs send very recently will get played.
-                if(Date.now() - Date.parse(this.props.message.timestamp)  <= 38000) {
-                    $('body').trigger('startRumble');
-                    setTimeout(function(){$('body').trigger('stopRumble')}, 1500)
-                }
             }
+            if(this.props.message.shouldPlayWib) {
+                $('body').trigger('startRumble');
+                setTimeout(function(){$('body').trigger('stopRumble')}, 1500)
+            }
+
         }
         return (
             <li>
                 <div style={wrapperStyle} >
-                    <Avatar src={friend.picture} />
+                    <Avatar style={avatarStyle} src={friend.picture} />
                     <div style={textStyle}>
                         {content}
                         {media}
                     </div>
+                    <TimeAgo style={timeStyle} date={this.props.message.timestamp} />
                 </div>
                 <ListDivider />
             </li>
@@ -93,7 +104,8 @@ Message.defaultProps = {
     message: {
         content: "Test Message",
         direction: "from",
-        senderId: 1
+        senderId: 1,
+        timestamp: '1 Jan 1970'
     }
 }
 

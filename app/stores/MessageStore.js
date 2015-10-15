@@ -22,6 +22,7 @@ class MessageStore {
 
         let self = this;
         let messages = self.messages;
+        msgEvent.message.shouldPlayWib = true;
         messages[msgEvent.message.senderId].push(msgEvent.message);
         self.setState({messages: messages});
         // Repoll
@@ -78,6 +79,7 @@ class MessageStore {
                     } else {
                         entry.direction = "to";
                     }
+                    entry.shouldPlayWib = false;
                 });
                 messages[userId] = resMessages;
                 self.setState({messages: messages})
@@ -114,6 +116,7 @@ class MessageStore {
                 } else {
                     message.direction = "to";
                 }
+                message.shouldPlayWib = true;
 
                 // send a message to the given userId
                 let messages = self.messages;
