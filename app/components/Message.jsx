@@ -32,7 +32,7 @@ class Message extends React.Component {
             } else {
                 setTimeout(function() {
                     MessageStore.turnOffWibs(user, self.props.message.id);
-                }, 1550);
+                }, 1550); // 50ms longer than a wobble. Turning the wobble off any earlier changes the state, causing it to cease.
             }
         }
     }
