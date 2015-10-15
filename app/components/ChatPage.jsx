@@ -37,6 +37,8 @@ class ChatPage extends React.Component {
     render() {
         let sidebarStyles = {
           flex: 'initial',
+          overflow: 'auto',
+          overflowX: 'hidden',
           width: '300px',
           minWidth: '100px'
         }
