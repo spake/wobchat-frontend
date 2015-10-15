@@ -29,7 +29,7 @@ class Messages extends React.Component {
 
         node.onscroll = function() {
             if (node.scrollTop == 0) {
-                MessageActions.load(self.props.userId)
+                MessageActions.load(self.props.userId, function() {})
             }
         }
     }
