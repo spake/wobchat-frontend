@@ -15,6 +15,11 @@ class MessageStore {
         this.messages = {};
         this.mostRecentId = -1;
         this.poll();
+        
+        this.exportPublicMethods({
+            turnOffWibs: this.turnOffWibs.bind(this)
+        });
+
     }
     add(msgEvent) {
         console.log("Message receieved.");
@@ -23,6 +28,9 @@ class MessageStore {
         let self = this;
         let messages = self.messages;
         msgEvent.message.shouldPlayWib = true;
+        if (typeof messages[msgEvent.message.senderId] === 'undefined') {
+            messages[msgEvent.message.senderId] = [];
+        }
         messages[msgEvent.message.senderId].push(msgEvent.message);
         self.setState({messages: messages});
     }
@@ -46,7 +54,7 @@ class MessageStore {
                 if (!err && res.body.success) {
                     self.add(res.body);
                     const user = FriendStore.get(res.body.message.senderId);
-                    Notify.play(user.name)
+                    Notify.play(user)
                 } else {
                     console.log("Longpoll unsuccessful");
                 }
@@ -59,9 +67,10 @@ class MessageStore {
                 self.poll()
             }, 100); 
         }
-
     }
-    loadMessages(userId) {
+    load(params) {
+        const userId = params[0];
+        const callback = params[1];
         let self = this;
 
         const token = FriendStore.getState().me.token
@@ -99,15 +108,25 @@ class MessageStore {
                     self.mostRecentId = newId;
                     console.log("New mostRecentId: " + self.mostRecentId);
                 }
+                callback();
             } else {
                 console.log(err)
             }
 
         });
     }
-    load(userId) {
-        this.loadMessages(userId);
-        // Start longpoll.
+    turnOffWibs(userId, messageId) {
+        console.log("Turning off wibs");
+        let messages = this.messages;
+        messages[userId].some(function(message) {
+            if (message.id == messageId) {
+                message.shouldPlayWib = false;
+                return;
+            }
+        });
+        this.setState({
+            messages: messages
+        });
     }
     send(message) {
         var self = this;

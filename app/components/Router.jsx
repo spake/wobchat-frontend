@@ -8,7 +8,8 @@ var InternalRouter = React.createClass({
     mixins: [RouterMixin],
     routes: {
         '/': 'home',
-        '/chat': 'chat'
+        '/chat': 'chat',
+        '/chat/:id' : 'chatWithId',
     },
     render: function() {
         return this.renderCurrentRoute();
@@ -18,6 +19,9 @@ var InternalRouter = React.createClass({
     },
     chat: function() {
         return <ChatPage />;
+    },
+    chatWithId: function(userId, params) {
+        return <ChatPage userId={userId} />
     },
     notFound: function(path) {
         return <div class="not-found">Page Not Found: {path}</div>;
