@@ -1,3 +1,12 @@
 import alt from '../libs/alt';
 
-export default alt.generateActions('load', 'send', 'poll');
+class MessageActions {
+	constructor() {
+    this.generateActions('load');
+    this.generateActions('send', 'poll');
+  }
+
+
+}
+
+export default alt.createActions(MessageActions);
