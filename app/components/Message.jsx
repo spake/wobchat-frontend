@@ -69,6 +69,9 @@ class Message extends React.Component {
         } 
 
         let friend = FriendStore.get(this.props.message.senderId);
+        if (friend == null) {
+            friend = {};
+        }
         let content = this.props.message.content;
         let media = null;
         if (this.props.message.contentType == 2 && Config.videos.indexOf(this.props.message.content) > -1) {

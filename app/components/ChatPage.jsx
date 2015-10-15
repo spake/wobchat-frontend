@@ -9,6 +9,7 @@ import MessageStore from '../stores/MessageStore';
 import ChatBox from './ChatBox.jsx';
 import UserSearch from './UserSearch.jsx';
 import mui from 'material-ui';
+var navigate = require('react-mini-router').navigate;
 let {TextField} = mui;
 let ThemeManager = new mui.Styles.ThemeManager();
 
@@ -26,7 +27,6 @@ class ChatPage extends React.Component {
             currentChatUser: -1,
             search: ""
         };
-
         document.addEventListener('DOMContentLoaded', function () {
           if (Notification.permission !== "granted")
             Notification.requestPermission();
@@ -101,9 +101,28 @@ class ChatPage extends React.Component {
             </div>
         )
     }
+    componentDidMount() {
+      const self = this;
+      if ('userId' in this.props) {
+          const userId = this.props.userId;
+          let interval = setInterval(function() {
+              let token = FriendStore.getState().me.token;
+              if (token) {
+                  self.openFriend(userId);
+                  clearInterval(interval);
+              }
+          }, 100);
+      }
+    }
     openFriend(id) {
-        MessageActions.load(id)
-        this.setState({currentChatUser: id});
+        const self = this;
+        MessageActions.load(id, function() {
+            let friend = FriendStore.get(id);
+            if (friend != null) {
+                navigate('/chat/' + id, true);
+                self.setState({currentChatUser: id});
+            }
+        })
     }
 
     handleTextChange(ev) {

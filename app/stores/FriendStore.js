@@ -167,7 +167,7 @@ class FriendStore {
         if (typeof this.me != 'undefined' && id == this.me.id) {
             return this.me;
         }
-        let returnFriend = {}
+        let returnFriend = null
         this.friends.forEach(function(friend) {
             if (friend.id == id) {
                 returnFriend = friend;

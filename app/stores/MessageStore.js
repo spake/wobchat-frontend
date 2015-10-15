@@ -66,7 +66,9 @@ class MessageStore {
             }, 100); 
         }
     }
-    loadMessages(userId) {
+    load(params) {
+        const userId = params[0];
+        const callback = params[1];
         let self = this;
 
         const token = FriendStore.getState().me.token
@@ -93,15 +95,12 @@ class MessageStore {
                     self.mostRecentId = newId;
                     console.log("New mostRecentId: " + self.mostRecentId);
                 }
+                callback();
             } else {
                 console.log(err)
             }
 
         });
-    }
-    load(userId) {
-        this.loadMessages(userId);
-        // Start longpoll.
     }
     turnOffWibs(userId, messageId) {
         console.log("Turning off wibs");
