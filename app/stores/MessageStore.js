@@ -75,7 +75,7 @@ class MessageStore {
 
         const token = FriendStore.getState().me.token
         let suffix = ''
-        if (typeof(self.messages[userId]) !== 'undefined') {
+        if (typeof self.messages[userId] !== 'undefined' && self.messages[userId].length > 0) {
             suffix = '?last=' + self.messages[userId][0].id
             console.log('adding suffix: ' + suffix)
         }
@@ -94,9 +94,9 @@ class MessageStore {
                     }
                     entry.shouldPlayWib = false;
                 });
-                if (typeof(messages[userId]) !== 'undefined') {
+                if (typeof messages[userId] !== 'undefined') {
                     console.log('appending ' + resMessages.length + ' messages')
-                    messages[userId] = Array.prototype.concat(resMessages, messages[userId])
+                    messages[userId] = resMessages.concat(messages[userId])
                 } else {
                     console.log('there are ' + resMessages.length + ' new messages')
                     messages[userId] = resMessages

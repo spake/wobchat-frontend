@@ -29,7 +29,6 @@ class Messages extends React.Component {
 
         node.onscroll = function() {
             if (node.scrollTop == 0) {
-                console.log("fek");
                 MessageActions.load(self.props.userId)
             }
         }
