@@ -15,6 +15,11 @@ class MessageStore {
         this.messages = {};
         this.mostRecentId = -1;
         this.poll();
+        
+        this.exportPublicMethods({
+            turnOffWibs: this.turnOffWibs.bind(this)
+        });
+
     }
     add(msgEvent) {
         console.log("Message receieved.");
@@ -60,7 +65,6 @@ class MessageStore {
                 self.poll()
             }, 100); 
         }
-
     }
     loadMessages(userId) {
         let self = this;
@@ -98,6 +102,19 @@ class MessageStore {
     load(userId) {
         this.loadMessages(userId);
         // Start longpoll.
+    }
+    turnOffWibs(userId, messageId) {
+        console.log("Turning off wibs");
+        let messages = this.messages;
+        messages[userId].some(function(message) {
+            if (message.id == messageId) {
+                message.shouldPlayWib = false;
+                return;
+            }
+        });
+        this.setState({
+            messages: messages
+        });
     }
     send(message) {
         var self = this;

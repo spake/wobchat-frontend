@@ -2,6 +2,7 @@ import React from 'react';
 import mui from 'material-ui';
 import FriendActions from '../actions/FriendActions';
 import FriendStore from '../stores/FriendStore';
+import MessageStore from '../stores/MessageStore';
 import Config from '../libs/Config.js';
 import TimeAgo from 'react-timeago';
 let {ListDivider, Avatar} = mui;
@@ -12,13 +13,26 @@ class Message extends React.Component {
         super(props);
     }
     componentDidMount() {
-        console.log("message mounted")
-        if ("video" in this.refs) {
-            let node = React.findDOMNode(this.refs.video);
-            node.onended = function() {
-                this.pause();
-                this.src =""; // empty source
-                this.load();
+        let user = null;
+        const self = this;
+        if(this.props.message.shouldPlayWib) {
+            if (this.props.message.direction=="from") {
+                user = this.props.message.recipientId;
+            } else {
+                user = this.props.message.senderId;
+            }
+            if ("video" in this.refs) {
+                let node = React.findDOMNode(this.refs.video);
+                node.onended = function() {
+                    MessageStore.turnOffWibs(user, self.props.message.id);
+                    this.pause();
+                    this.src =""; // empty source
+                    this.load();
+                }
+            } else {
+                setTimeout(function() {
+                    MessageStore.turnOffWibs(user, self.props.message.id);
+                }, 1550); // 50ms longer than a wobble. Turning the wobble off any earlier changes the state, causing it to cease.
             }
         }
     }
@@ -82,7 +96,6 @@ class Message extends React.Component {
                 $('body').trigger('startRumble');
                 setTimeout(function(){$('body').trigger('stopRumble')}, 1500)
             }
-
         }
         return (
             <li>
