@@ -28,6 +28,9 @@ class MessageStore {
         let self = this;
         let messages = self.messages;
         msgEvent.message.shouldPlayWib = true;
+        if (typeof messages[msgEvent.message.senderId] === 'undefined') {
+            messages[msgEvent.message.senderId] = [];
+        }
         messages[msgEvent.message.senderId].push(msgEvent.message);
         self.setState({messages: messages});
         // Repoll
@@ -53,7 +56,7 @@ class MessageStore {
                 if (!err && res.body.success) {
                     self.add(res.body);
                     const user = FriendStore.get(res.body.message.senderId);
-                    Notify.play(user.name)
+                    Notify.play(user)
                 } else {
                     console.log("Longpoll unsuccessful");
                     self.poll();
