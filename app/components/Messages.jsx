@@ -63,7 +63,8 @@ Messages.defaultProps = {
         {
             content: "Message",
             senderId: 1,
-            id: 1
+            id: 1,
+            timestamp: '1 Jan 1970'
         }
     ]
 }
