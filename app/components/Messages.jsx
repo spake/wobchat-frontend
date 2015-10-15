@@ -12,11 +12,26 @@ class Messages extends React.Component {
     componentWillUpdate() {
         let node = React.findDOMNode(this.refs.thread);
         this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+        this.shouldPreserveScroll = node.scrollTop == 0
+        this.oldHeight = node.scrollHeight
     }
     componentDidUpdate() {
+        let node = React.findDOMNode(this.refs.thread);
+
         if (this.shouldScrollBottom) {
-            let node = React.findDOMNode(this.refs.thread);
             node.scrollTop = node.scrollHeight
+        }
+        if (this.shouldPreserveScroll) {
+            node.scrollTop = node.scrollHeight - this.oldHeight
+        }
+
+        let self = this
+
+        node.onscroll = function() {
+            if (node.scrollTop == 0) {
+                console.log("fek");
+                MessageActions.load(self.props.userId)
+            }
         }
     }
     render() {

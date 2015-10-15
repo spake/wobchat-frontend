@@ -25,8 +25,6 @@ class MessageStore {
         msgEvent.message.shouldPlayWib = true;
         messages[msgEvent.message.senderId].push(msgEvent.message);
         self.setState({messages: messages});
-        // Repoll
-        this.poll();
     }
     poll() {
         let self = this;
@@ -51,9 +49,10 @@ class MessageStore {
                     Notify.play(user.name)
                 } else {
                     console.log("Longpoll unsuccessful");
-                    self.poll();
                 }
 
+                // Repoll
+                self.poll();
             });
         } else {
             setTimeout(function(){
@@ -66,8 +65,13 @@ class MessageStore {
         let self = this;
 
         const token = FriendStore.getState().me.token
+        let suffix = ''
+        if (typeof(self.messages[userId]) !== 'undefined') {
+            suffix = '?last=' + self.messages[userId][0].id
+            console.log('adding suffix: ' + suffix)
+        }
         request
-          .get(Config.apiBaseUrl + '/friends/' + userId + '/messages')
+          .get(Config.apiBaseUrl + '/friends/' + userId + '/messages' + suffix)
           .set('X-Session-Token', token)
           .end(function(err, res){
             if (!err && res.body.success) {
@@ -81,7 +85,13 @@ class MessageStore {
                     }
                     entry.shouldPlayWib = false;
                 });
-                messages[userId] = resMessages;
+                if (typeof(messages[userId]) !== 'undefined') {
+                    console.log('appending ' + resMessages.length + ' messages')
+                    messages[userId] = Array.prototype.concat(resMessages, messages[userId])
+                } else {
+                    console.log('there are ' + resMessages.length + ' new messages')
+                    messages[userId] = resMessages
+                }
                 self.setState({messages: messages})
                 // Update most recent msg ID
                 var newId = (messages[userId] == undefined) ? messages[userId][messages[userId].length - 1].id : -1;
