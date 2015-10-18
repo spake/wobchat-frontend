@@ -8,22 +8,24 @@ class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.renderMessage = this.renderMessage.bind(this);
+
+        this.lastUserId = -1
     }
     componentWillUpdate() {
-        let node = React.findDOMNode(this.refs.thread);
-        this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+        let node = React.findDOMNode(this.refs.thread)
+        this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight
         this.shouldPreserveScroll = node.scrollTop == 0
         this.oldHeight = node.scrollHeight
     }
     componentDidUpdate() {
         let node = React.findDOMNode(this.refs.thread);
 
-        if (this.shouldScrollBottom) {
+        if (this.shouldScrollBottom || this.lastUserId != this.props.userId) {
             node.scrollTop = node.scrollHeight
-        }
-        if (this.shouldPreserveScroll) {
+        } else if (this.shouldPreserveScroll) {
             node.scrollTop = node.scrollHeight - this.oldHeight
         }
+        this.lastUserId = this.props.userId
 
         let self = this
 
