@@ -116,17 +116,17 @@ class MessageStore {
         });
     }
     turnOffWibs(userId, messageId) {
-        console.log("Turning off wibs");
-        let messages = this.messages;
+        console.log("Turning off wibs")
+        let messages = this.messages
         messages[userId].some(function(message) {
             if (message.id == messageId) {
                 message.shouldPlayWib = false
-                return;
+                return
             }
-        });
+        })
         this.setState({
             messages: messages
-        });
+        })
     }
 
     // find the last message that's sent by the user that is a text message
