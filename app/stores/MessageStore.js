@@ -120,7 +120,7 @@ class MessageStore {
         let messages = this.messages;
         messages[userId].some(function(message) {
             if (message.id == messageId) {
-                message.shouldPlayWib = false;
+                message.shouldPlayWib = false
                 return;
             }
         });
@@ -134,12 +134,12 @@ class MessageStore {
         let userMessages = this.messages[userId]
         let myId = FriendStore.getState().me.id
         
-        let foundMessage = false;
+        let foundMessage = false
         let message = null
         for(let i=userMessages.length-1; i >= 0; i--) {
             message = userMessages[i]
             if (message.senderId == myId && message.contentType == 1) {
-                foundMessage = true;
+                foundMessage = true
                 break
             }
         }
@@ -155,8 +155,8 @@ class MessageStore {
 
         // this section applies s/// messages to the previous message and sends that
         // ceebs dealing with backslashes properly - some things will just break
-        let subMatchRe = new RegExp("^\s*s/(.*)/(.*)/(g?)\s*$");
-        let reResults = subMatchRe.exec(message.content);
+        let subMatchRe = new RegExp("^\s*s/(.*)/(.*)/(g?)\s*$")
+        let reResults = subMatchRe.exec(message.content)
         if (reResults) {
             let globalOption = reResults[3]
             let userSubRe = null
