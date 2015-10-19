@@ -19,7 +19,7 @@ class MessageStore {
         this.exportPublicMethods({
             turnOffWibs: this.turnOffWibs.bind(this)
         });
-
+        this.getLastTextMessage = this.getLastTextMessage.bind(this)
     }
     add(msgEvent) {
         console.log("Message receieved.");
@@ -120,7 +120,7 @@ class MessageStore {
         let messages = this.messages;
         messages[userId].some(function(message) {
             if (message.id == messageId) {
-                message.shouldPlayWib = false;
+                message.shouldPlayWib = false
                 return;
             }
         });
@@ -128,8 +128,60 @@ class MessageStore {
             messages: messages
         });
     }
+
+    // find the last message that's sent by the user that is a text message
+    getLastTextMessage(userId) {
+        let userMessages = this.messages[userId]
+        let myId = FriendStore.getState().me.id
+        
+        let foundMessage = false
+        let message = null
+        for(let i=userMessages.length-1; i >= 0; i--) {
+            message = userMessages[i]
+            if (message.senderId == myId && message.contentType == 1) {
+                foundMessage = true
+                break
+            }
+        }
+        if (foundMessage) {
+            return message
+        } else {
+            return null
+        }
+    }
+
     send(message) {
         var self = this;
+
+        // this section applies s/// messages to the previous message and sends that
+        // ceebs dealing with backslashes properly - some things will just break
+        let subMatchRe = new RegExp("^\s*s/(.*)/(.*)/(g?)\s*$")
+        let reResults = subMatchRe.exec(message.content)
+        if (reResults) {
+            let globalOption = reResults[3]
+            let userSubRe = null
+            // the regex may be invalid
+            try {
+                if (globalOption) {
+                    userSubRe = new RegExp(reResults[1], 'g')
+                } else {
+                    userSubRe = new RegExp(reResults[1])
+                }
+            } catch (err) {
+                console.log('Invalid regex entered')
+                // just don't do anything if an invalid regex is entered
+                return
+            }
+            let userReplaceString = reResults[2]
+
+            let userMessages = this.messages[message.recipientId]
+            let lastMessage = this.getLastTextMessage(message.recipientId)
+            if (lastMessage == null) {
+                // there wasn't a message to correct
+                return
+            }
+            message.content = "I meant to say: " + lastMessage.content.replace(userSubRe, userReplaceString)
+        }
 
         const token = FriendStore.getState().me.token
         request
