@@ -145,9 +145,8 @@ class MessageStore {
         }
         if (foundMessage) {
             return message
-        } else {
-            return null
         }
+        return null
     }
 
     send(message) {
