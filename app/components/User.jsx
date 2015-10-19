@@ -44,6 +44,9 @@ class User extends React.Component {
                     })
                }
             </IconMenu>;
+        if (user.picture == '') {
+            user.picture = 'resources/profile.png'
+        }
 
         return (
             <ListItem
