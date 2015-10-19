@@ -70,12 +70,25 @@ class MessageStore {
     }
     load(params) {
         const userId = params[0];
-        const callback = params[1];
+        const forceLoad = params[1];
+        const callback = params[2];
         let self = this;
 
         const token = FriendStore.getState().me.token
+
+        let messagesNonEmpty = (typeof self.messages[userId] !== 'undefined' && self.messages[userId].length > 0)
+
+        if (messagesNonEmpty && !forceLoad) {
+            // don't bother loading any new messages; we should get them from
+            // notifications anywho
+            callback();
+            return;
+        }
+
+        // if messages is empty, or forceLoad is true, then actually download messages
+
         let suffix = ''
-        if (typeof self.messages[userId] !== 'undefined' && self.messages[userId].length > 0) {
+        if (messagesNonEmpty) {
             suffix = '?last=' + self.messages[userId][0].id
             console.log('adding suffix: ' + suffix)
         }

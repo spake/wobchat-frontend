@@ -116,7 +116,7 @@ class ChatPage extends React.Component {
     }
     openFriend(id) {
         const self = this;
-        MessageActions.load(id, function() {
+        MessageActions.load(id, false, function() {
             let friend = FriendStore.get(id);
             if (friend != null) {
                 navigate('/chat/' + id, true);
