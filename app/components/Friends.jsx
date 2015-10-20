@@ -66,7 +66,7 @@ class Friends extends React.Component {
     ]
     let isCurrUser = false;
     if (typeof this.props.currentChatUser !== undefined) {
-      isCurrUser = (this.props.currentChatUser == friend.id) ? true : false
+      isCurrUser = (this.props.currentChatUser == friend.id)
     }
     return (
             <User
