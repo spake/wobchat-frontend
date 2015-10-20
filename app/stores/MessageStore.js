@@ -49,7 +49,7 @@ class MessageStore {
             request
               .get(url)
               .set('X-Session-Token', token)
-              .timeout(70000)
+              .timeout(12000)
               .end(function(err, res){
                 if (!err && res.body.success) {
                     FriendStore.moveFriendToTop(res.body.message.senderId);
