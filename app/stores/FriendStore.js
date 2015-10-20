@@ -6,18 +6,31 @@ import request from 'superagent';
 
 class FriendStore {
     constructor() {
-	    this.bindActions(FriendActions);
-	    this.friends = [];
+	this.bindActions(FriendActions);
+	this.friends = [];
         this.me = {};
         this.friendRequests = [];
         this.exportPublicMethods({
             get: this.getFriend.bind(this),
             pullInfo: this.pullInfo.bind(this),
+            moveFriendToTop: this.moveFriendToTop.bind(this),
         });
 
         this.pullInfo = this.pullInfo.bind(this);
         this.checkRequests = this.checkRequests.bind(this);
         this.pullRequests = this.pullRequests.bind(this);
+    }
+    moveFriendToTop(id) {
+        let friends = this.friends
+        const self = this
+        friends.forEach(function(friend, index) {
+            if (friend.id == id) {
+                friends.splice(index, 1)
+                friends.unshift(friend)
+                self.setState({friends: friends})
+            }
+        })
+
     }
     pullInfo(token) {
     	let self = this;

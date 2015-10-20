@@ -52,6 +52,7 @@ class MessageStore {
               .timeout(70000)
               .end(function(err, res){
                 if (!err && res.body.success) {
+                    FriendStore.moveFriendToTop(res.body.message.senderId);
                     self.add(res.body);
                     const user = FriendStore.get(res.body.message.senderId);
                     Notify.play(user)
