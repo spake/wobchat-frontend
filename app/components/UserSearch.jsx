@@ -11,7 +11,7 @@ class UserSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []  
+            users: []
         };
         this.searchUsers = this.searchUsers.bind(this);
         this.renderUser = this.renderUser.bind(this);
@@ -48,7 +48,7 @@ class UserSearch extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.searchUsers(nextProps); 
+        this.searchUsers(nextProps);
     }
 
     componentDidMount() {

@@ -15,7 +15,7 @@ let ThemeManager = new mui.Styles.ThemeManager();
 
 
 class ChatPage extends React.Component {
-    getChildContext() { 
+    getChildContext() {
         return {
             muiTheme: ThemeManager.getCurrentTheme()
         };
@@ -77,21 +77,21 @@ class ChatPage extends React.Component {
                        onChange={this.handleTextChange}  />
                     {this.state.search.length > 0 ?
                     <UserSearch search={this.state.search} />
-                    : 
+                    :
                     <AltContainer
                         stores={[FriendStore]}
                         inject={ {
                             items: () => FriendStore.getState().friends,
                             requests: () => FriendStore.getState().friendRequests
                         } }>
-                        <Friends onClick={this.openFriend} />
+                        <Friends onClick={this.openFriend} currentChatUser={this.state.currentChatUser} />
                     </AltContainer>
                     }
                 </div>
-                {self.state.currentChatUser != -1 ? <div style={messagesStyles}>    
+                {self.state.currentChatUser != -1 ? <div style={messagesStyles}>
                   <AltContainer
                     stores={[MessageStore]}
-                    inject={ { 
+                    inject={ {
                         items: () => MessageStore.getState().messages[self.state.currentChatUser]
                     } }>
                     <Messages userId={self.state.currentChatUser}/>

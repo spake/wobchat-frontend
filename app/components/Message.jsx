@@ -62,11 +62,11 @@ class Message extends React.Component {
             zIndex: 20000,
             pointerEvents: 'none'
         }
-        
+
         let timeStyle={
             fontSize: '0.7em',
             color: '#aaa'
-        } 
+        }
 
         let friend = FriendStore.get(this.props.message.senderId);
         if (friend == null) {
