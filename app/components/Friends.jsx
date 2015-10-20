@@ -22,7 +22,7 @@ class Friends extends React.Component {
           {requests != null && requests.length > 0 ?
             <List subheader="Pending Friend Requests">
               <Paper zDepth={0} >
-                {requests.map(this.renderRequest)}  
+                {requests.map(this.renderRequest)}
               </Paper>
             </List>
           : null
@@ -41,7 +41,7 @@ class Friends extends React.Component {
         {
             name: 'Accept',
             doAction: FriendActions.acceptRequest.bind(null, user.id)
-            
+
         },
         {
             name: 'Decline',
@@ -64,12 +64,17 @@ class Friends extends React.Component {
             doAction: this.showModal.bind(null, friend)
         }
     ]
+    let isCurrUser = false;
+    if (typeof this.props.currentChatUser !== undefined) {
+      isCurrUser = (this.props.currentChatUser == friend.id) ? true : false
+    }
     return (
             <User
               key={friend.id}
               user={friend}
               onClick={this.props.onClick.bind(null, friend.id)}
               actions={actions}
+              isCurrUser={isCurrUser}
             />
     );
   }

@@ -15,7 +15,7 @@ class MessageStore {
         this.messages = {};
         this.mostRecentId = -1;
         this.poll();
-        
+
         this.exportPublicMethods({
             turnOffWibs: this.turnOffWibs.bind(this)
         });
@@ -65,7 +65,7 @@ class MessageStore {
         } else {
             setTimeout(function(){
                 self.poll()
-            }, 100); 
+            }, 100);
         }
     }
     load(params) {
@@ -133,7 +133,7 @@ class MessageStore {
     getLastTextMessage(userId) {
         let userMessages = this.messages[userId]
         let myId = FriendStore.getState().me.id
-        
+
         let foundMessage = false
         let message = null
         for(let i=userMessages.length-1; i >= 0; i--) {
