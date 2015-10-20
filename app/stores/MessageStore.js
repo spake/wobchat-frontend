@@ -77,7 +77,7 @@ class MessageStore {
 
         const token = FriendStore.getState().me.token
 
-        let messagesNonEmpty = (typeof self.messages[userId] !== 'undefined' && self.messages[userId].length > 0)
+        let messagesNonEmpty = (typeof self.messages[userId] !== 'undefined' && self.messages[userId].length > 50) // this should be an ok threshold for "a lot of messages"
 
         if (messagesNonEmpty && !forceLoad) {
             // don't bother loading any new messages; we should get them from
