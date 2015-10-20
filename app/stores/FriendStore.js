@@ -6,8 +6,8 @@ import request from 'superagent';
 
 class FriendStore {
     constructor() {
-	this.bindActions(FriendActions);
-	this.friends = [];
+        this.bindActions(FriendActions);
+        this.friends = [];
         this.me = {};
         this.friendRequests = [];
         this.exportPublicMethods({
@@ -24,6 +24,7 @@ class FriendStore {
         let friends = this.friends
         const self = this
         friends.forEach(function(friend, index) {
+            console.log(friend.id, id);
             if (friend.id == id) {
                 friends.splice(index, 1)
                 friends.unshift(friend)

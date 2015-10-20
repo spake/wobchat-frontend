@@ -204,6 +204,8 @@ class MessageStore {
           .send(JSON.stringify(message))
           .end(function(err, res){
             if (!err && res.body.success) {
+                console.log("YESSSS")
+                FriendStore.moveFriendToTop(message.recipientId)
                 message.id = res.body.id
                 if (message.senderId == FriendStore.getState().me.id) {
                     message.direction = "from";
